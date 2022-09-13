@@ -1,12 +1,6 @@
 #include <iostream>
 #include <stack>
 
-// 기본적으로 괄호 문제처럼 접근
-// bomb 길이가 ㅉ, ㅎ 경우 나누기
-// bomb 길이가 ㅉ이면 절반 앞 문자열들에 대하여 스택 저장
-// bomb 길이가 ㅎ이면 절반 앞 문자열들에 대하여 스택 저장
-// 절반 뒤가 나오면 스택에서 꺼내서 확인
-
 int main()
 {
     using namespace std;
@@ -20,25 +14,25 @@ int main()
     
     uint bomb_len = bomb_str.length();
 
+    // 만약 bomb 마지막 문자가 들어오면 뒤쪽으로 bomb 문자열 있는지 확인
+    // 있으면 삭제
+    // 없으면 넘어가기
     for (uint i = 0; i < str.length(); i++)
     {
         s.push(str[i]);
+        bool flag = true;
 
         if (s.top() == bomb_str[bomb_len - 1] && s.size() >= bomb_len)
         {
-            bool flag = true;
-            for (uint j = 0; j < bomb_len - 1; j++)
+            for (uint j = 0; j < bomb_len; j++)
             {
-                if (str[i - 1 - j] != bomb_str[bomb_len - 2 - j])
+                if (str[i - j] != bomb_str[bomb_len - 1 - j])
                 {
                     flag = false;
                     break;
                 }
             }
-            if (flag)
-            {
-                for (uint i = 0; i < bomb_len; i++) s.pop();
-            }
+            if (flag) for (uint i = 0; i < bomb_len; i++) s.pop();
         }
     }
 
@@ -55,5 +49,6 @@ int main()
         for (int j = ans_len - 1; j >= 0; j--) cout << ans[j];
     }
     cout << endl;
+
     return 0;
 }
