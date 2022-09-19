@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bits/stdc++.h>
 #include <stack>
 
 int main()
@@ -24,15 +25,22 @@ int main()
 
         if (s.top() == bomb_str[bomb_len - 1] && s.size() >= bomb_len)
         {
-            for (uint j = 0; j < bomb_len; j++)
+            string v;
+            for (uint i = 0; i < bomb_len; i++)
             {
-                if (str[i - j] != bomb_str[bomb_len - 1 - j])
+                v += s.top();
+                s.pop();
+            }
+            reverse(v.begin(), v.end());
+            for (int i = 0; i < bomb_len; i++)
+            {
+                if (v[i] != bomb_str[i])
                 {
                     flag = false;
                     break;
                 }
             }
-            if (flag) for (uint i = 0; i < bomb_len; i++) s.pop();
+            if (!flag) for (uint i = 0; i < bomb_len; i++) s.push(v[i]);
         }
     }
 
