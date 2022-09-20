@@ -7,35 +7,33 @@ using lld = long long;
 using pii = pair<int, int>;
 using pll = pair<lld, lld>;
 
-uint n, m;
-unordered_map<string, bool> um;
-vector<string> ans;
+uint n;
+unordered_map<string, int> in;
+uint ans = 0;
 
 int main()
 {
     ios_base::sync_with_stdio(0);
 	cin.tie(0); cout.tie(0);
 
-    cin >> n >> m;
+    cin >> n;
     for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
-        um[s] = true;
+        in[s] = i;
     }
-    for (uint i = 0; i < m; i++)
+    for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
-        if (um[s]) ans.push_back(s);
+        if (in[s] > i)
+        {
+            ans++;
+        }
     }
-    sort(all(ans));
 
-    cout << sz(ans) << endl;
-    for (uint i = 0; i < sz(ans); i++)
-    {
-        cout << ans[i] << endl;
-    }
+    cout << ans << endl;
 
     return 0;
 }
