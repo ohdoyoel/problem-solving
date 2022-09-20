@@ -24,8 +24,10 @@ int main()
 
         if (s.top() == bomb_str[bomb_len - 1] && s.size() >= bomb_len)
         {
+            string k;
             for (uint j = 0; j < bomb_len; j++)
             {
+                k += 
                 if (str[i - j] != bomb_str[bomb_len - 1 - j])
                 {
                     flag = false;
