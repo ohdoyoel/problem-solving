@@ -8,7 +8,6 @@ using pii = pair<int, int>;
 using pll = pair<lld, lld>;
 
 uint n;
-unordered_map<string, int> in;
 uint ans = 0;
 
 int main()
@@ -17,17 +16,40 @@ int main()
 	cin.tie(0); cout.tie(0);
 
     cin >> n;
+    unordered_map<string, int> in_um;
+    unordered_map<string, int> out_um;
+    vector<string> in;
+    vector<string> out;
+
     for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
-        in[s] = i;
+        in_um[s] = i;
+        in.push_back(s);
     }
+
     for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
-        if (in[s] > i)
+        out_um[s] = i;
+        out.push_back(s);
+    }
+
+    for (uint i = 0; i < sz(in); i++)
+    {
+        bool flag = false;
+        
+        for (uint j = 0; j < in_um[out[i]]; j++)
+        {
+            if (out_um[in[j]] > out_um[out[i]])
+            {
+                flag = true;
+                break;
+            }
+        }
+        if (flag)
         {
             ans++;
         }

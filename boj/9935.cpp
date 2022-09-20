@@ -25,13 +25,6 @@ int main()
 
         if (s.top() == bomb_str[bomb_len - 1] && s.size() >= bomb_len)
         {
-<<<<<<< HEAD
-            string k;
-            for (uint j = 0; j < bomb_len; j++)
-            {
-                k += 
-                if (str[i - j] != bomb_str[bomb_len - 1 - j])
-=======
             string v;
             for (uint i = 0; i < bomb_len; i++)
             {
@@ -42,7 +35,6 @@ int main()
             for (int i = 0; i < bomb_len; i++)
             {
                 if (v[i] != bomb_str[i])
->>>>>>> f3b48a51cb8c3224a7932b5176183f2d52b7743b
                 {
                     flag = false;
                     break;
