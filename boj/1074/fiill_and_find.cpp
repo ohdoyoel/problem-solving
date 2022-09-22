@@ -9,9 +9,8 @@ using pll = pair<lld, lld>;
 
 uint n, r, c;
 
-
 int e = 0;
-void fill_table(vector<vector<int>> table, uint n, uint r, uint c)
+void fill_table(vector<vector<int>> &table, uint n, uint r, uint c)
 {
     if (n == 1)
     {
@@ -19,21 +18,13 @@ void fill_table(vector<vector<int>> table, uint n, uint r, uint c)
         table[r][c + 1] = e++;
         table[r + 1][c] = e++;
         table[r + 1][c + 1] = e++;
-        for (uint i = 0; i < table.size(); i++)
-        {
-            for (uint j = 0; j < table[0].size(); j++)
-            {
-                cout << table[i][j];
-            }
-            cout << endl;
-        }
-        cout << endl;
         return ;
     }
     fill_table(table, n - 1, r, c);
     fill_table(table, n - 1, r, c + pow(2, n - 1));
     fill_table(table, n - 1, r + pow(2, n - 1), c);
     fill_table(table, n - 1, r + pow(2, n - 1), c + pow(2, n - 1));
+    return ;
 }
 
 int main()
