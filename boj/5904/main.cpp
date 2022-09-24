@@ -11,6 +11,21 @@ using pll = pair<lld, lld>;
 ///////////////////////////////////////
 uint n, k;
 
+uint moo_len(uint i)
+{
+    if (i == 0) return 3;
+    return 2 * moo_len(i - 1) + i + 3;
+}
+
+char solve(uint n, uint k)
+{
+    uint l = (k > 0) ? moo_len(k - 1) : 0;
+    uint r = (k > 0) ? moo_len(k) - l : 2;
+    if (n > l && n <= r) return (n == l + 1) ? 'm' : 'o';
+    else if (n <= l) return solve(n, k - 1);
+    else if (n > r) return solve(n - r, k - 1);
+}
+
 int main()
 {
     ios_base::sync_with_stdio(0);
@@ -23,19 +38,17 @@ int main()
     // algorithm
     ///////////////////////////////////////
     uint i = 0;
-    k = 3;
     while (true)
     {
-        if (n <= k) break;
-        k = 3 * k + 1;
+        // cout << i << ' ' << moo_len(i) << endl;
+        if (n <= moo_len(i)) break;
         i++;
     }
-    cout << i;
-
-    // solve(k);/
 
     // output
     ///////////////////////////////////////
+
+    cout << solve(n, i) << endl;
 
     return 0;
 }
