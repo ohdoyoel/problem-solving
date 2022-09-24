@@ -7,18 +7,37 @@ using lld = long long;
 using pii = pair<int, int>;
 using pll = pair<lld, lld>;
 
-uint n, r, c;
+int n, r, c;
 
 int ans = 0;
-int solve(uint n, uint r, uint c, uint x, uint y)
+void solve(int n, uint x, uint y, uint r, uint c)
 {
-    if (n == 1) return ans;
-    if (r <)
-    fill_table(table, n - 1, r, c);
-    fill_table(table, n - 1, r, c + pow(2, n - 1));
-    fill_table(table, n - 1, r + pow(2, n - 1), c);
-    fill_table(table, n - 1, r + pow(2, n - 1), c + pow(2, n - 1));
-    return ;
+    //cout << n << " " << x << " " << y << " " << r << " " << c << " " << ans << endl;
+    if (n == 0)
+    {
+        return ;
+    }
+    int p = pow(2, n - 1);
+    if (r < p && c < p)
+    {
+        ans += 0;
+        solve(n - 1, 0, 0, r, c);
+    }
+    else if (r < p && c >= p)
+    {
+        ans += pow(2, 2 * n - 2);
+        solve(n - 1, 0, p, r, c - p);
+    }
+    else if (r >= p && c < p)
+    {
+        ans += 2 * pow(2, 2 * n - 2);
+        solve(n - 1, p, 0, r - p, c);
+    }
+    else if (r >= p && c >= p)
+    {
+        ans += 3 * pow(2, 2 * n - 2);
+        solve(n - 1, p, p, r - p, c - p);
+    }
 }
 
 int main()
@@ -28,7 +47,8 @@ int main()
 
     cin >> n >> r >> c;
 
-    cout << solve(n, r, c) << endl;
+    solve(n, 0, 0, r, c);
+    cout << ans << endl;
 
     return 0;
 }

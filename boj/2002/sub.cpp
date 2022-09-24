@@ -17,31 +17,41 @@ int main()
 
     cin >> n;
     unordered_map<string, int> in_um;
-    vector<int> out;
+    unordered_map<string, int> out_um;
+    vector<string> in;
+    vector<string> out;
 
     for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
         in_um[s] = i;
+        in.push_back(s);
     }
 
     for (uint i = 0; i < n; i++)
     {
         string s;
         cin >> s;
-        out.push_back(in_um[s]);
+        out_um[s] = i;
+        out.push_back(s);
     }
 
-    for (uint i = 0; i < n; i++)
+    for (uint i = 0; i < sz(in); i++)
     {
-        for (uint j = i + 1; j < n; j++)
+        bool flag = false;
+        
+        for (uint j = 0; j < in_um[out[i]]; j++)
         {
-            if (out[i] > out[j])
+            if (out_um[in[j]] > out_um[out[i]])
             {
-                ans++;
+                flag = true;
                 break;
             }
+        }
+        if (flag)
+        {
+            ans++;
         }
     }
 
