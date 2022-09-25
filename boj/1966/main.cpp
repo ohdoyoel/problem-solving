@@ -9,7 +9,8 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-
+uint n;
+uint a, b;
 
 int main()
 {
@@ -18,7 +19,16 @@ int main()
 
     // input
     ///////////////////////////////////////
-
+    cin >> n;
+    for (uint i = 0; i < n; i++)
+    {
+        cin >> a >> b;
+        vector
+        for (uint j = 0; j < a; j++)
+        {
+            
+        }
+    }
 
     // algorithm
     ///////////////////////////////////////

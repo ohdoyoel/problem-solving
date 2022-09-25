@@ -10,6 +10,7 @@ using pll = pair<lld, lld>;
 // variable
 ///////////////////////////////////////
 uint n, m;
+unordered_map<string, int> table;
 
 int main()
 {
@@ -19,37 +20,30 @@ int main()
     // input
     ///////////////////////////////////////
     cin >> n;
-    vector<int> v_input(n);
     for (uint i = 0; i < n; i++)
     {
-        cin >> v_input[i];
+        string s;
+        cin >> s;
+        if (table.find(s) == table.end())
+        {
+            table[s] = 1;
+        }
+        else
+        {
+            table[s]++;
+        }
     }
-    reverse(all(v_input));
     cin >> m;
-    vector<int> v_output(m);
     for (uint i = 0; i < m; i++)
     {
-        cin >> v_output[i];
+        string s;
+        cin >> s;
+        cout << table[s] << ' ';
     }
+    cout << endl;
 
     // algorithm
     ///////////////////////////////////////
-    int k = 0;
-    for (uint i = 0; i < m; i++)
-    {
-        int x = v_output[i];
-        int ans = 0;
-        for (uint j = k; j < n; j++)
-        {
-            if (v_input[j] == x)
-            {
-                ans++;
-                k = j;
-            }
-        }
-        cout << ans << ' ';
-    }
-    cout << endl;
 
     // output
     ///////////////////////////////////////

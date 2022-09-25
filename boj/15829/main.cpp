@@ -9,7 +9,9 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-
+uint n;
+string input;
+unsigned long long ans = 0;
 
 int main()
 {
@@ -18,15 +20,19 @@ int main()
 
     // input
     ///////////////////////////////////////
-
+    cin >> n;
+    cin >> input;
 
     // algorithm
     ///////////////////////////////////////
+    for (uint i = 0; i < n; i++)
+    {
+        ans += (input[i] - 'a' + 1) * (pow(31, i));
+    }
     
-
     // output
     ///////////////////////////////////////
-    
+    cout << ans % 1234567891 << endl;
 
     return 0;
 }
