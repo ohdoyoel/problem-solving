@@ -13,6 +13,12 @@ uint n;
 string input;
 unsigned long long ans = 0;
 
+uint modular(uint i)
+{
+    if (i == 0) return 1;
+    return (31 * modular(i - 1) % 1234567891) % 1234567891;
+}
+
 int main()
 {
     ios_base::sync_with_stdio(0);
@@ -27,7 +33,7 @@ int main()
     ///////////////////////////////////////
     for (uint i = 0; i < n; i++)
     {
-        ans += (input[i] - 'a' + 1) * (pow(31, i));
+        ans += int(((input[i] - 'a' + 1) * (modular(i)))) % 1234567891;
     }
     
     // output

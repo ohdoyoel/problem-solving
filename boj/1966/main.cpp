@@ -9,8 +9,8 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-uint n;
-uint a, b;
+uint t;
+uint n, m;
 
 int main()
 {
@@ -19,20 +19,48 @@ int main()
 
     // input
     ///////////////////////////////////////
-    cin >> n;
-    for (uint i = 0; i < n; i++)
+    cin >> t;
+    for (uint i = 0; i < t; i++)
     {
-        cin >> a >> b;
-        vector
-        for (uint j = 0; j < a; j++)
+        cin >> n >> m;
+        queue<pair<int, int>> q;
+        vector<uint> v(n);
+        for (uint j = 0; j < n; j++)
         {
-            
+            int x;
+            cin >> x;
+            v[j] = x;
+            if (j == m) q.push(make_pair(x, 1));
+            else q. push(make_pair(x, 0));
         }
+
+        sort(all(v));
+        int ans = 1;
+        while (true)
+        {
+            if (q.front().first == v.back() && q.front().second == 1)
+            {
+                break;
+            }
+            else if (q.front().first == v.back() && q.front().second == 0)
+            {
+                q.pop();
+                v.pop_back();
+                ans++;
+            }
+            else
+            {
+                pair<int, int> x = q.front();
+                q.pop();
+                q.push(x);
+            }
+        }
+        cout << ans << endl;
     }
 
     // algorithm
     ///////////////////////////////////////
-    
+
 
     // output
     ///////////////////////////////////////
@@ -44,5 +72,9 @@ int main()
 // pseudo code
 ///////////////////////////////////////
 /*
-
+sort(importance)
+ans = 0;
+if (q.front == v.back && 찾던 놈) print(ans); break;
+if (q.front == v.back && 찾던 놈x) q.pop; v.pop_back; ans++;
+if (q.front != v.back) q.pop and push; 
 */
