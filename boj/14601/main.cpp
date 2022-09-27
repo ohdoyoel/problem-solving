@@ -12,10 +12,16 @@ using pll = pair<lld, lld>;
 uint k;
 uint x, y;
 
-// table에서 2^k 만큼의 정사각형을 (x0, y0)에서 부터 탐색할 것, (x, y)는 배수구의 상대 위치
+// table에서 2^k 만큼의 정사각형 범위을 (x0, y0)에서 부터 탐색할 것, (x, y)는 배수구의 상대 위치
 uint e = 1;
+bool flag = true;
 void solve(vector<vector<int>> &table, uint n, uint x0, uint y0, uint x, uint y)
-{
+{    
+    if (e > 5500)
+    {
+        flag = false;
+        return;
+    }
     uint p_n = pow(2, n);
     if (n == 1)
     {
@@ -40,6 +46,7 @@ void solve(vector<vector<int>> &table, uint n, uint x0, uint y0, uint x, uint y)
         solve(table, n - 1, x0 + p_n_minus_one, y0, 0, p_n_minus_one - 1);
         solve(table, n - 1, x0, y0 + p_n_minus_one, p_n_minus_one - 1, 0);
         solve(table, n - 1, x0 + p_n_minus_one, y0 + p_n_minus_one, 0, 0);
+        return;
     }
     else if (x >= p_n_minus_one && y < p_n_minus_one)
     {
@@ -51,6 +58,7 @@ void solve(vector<vector<int>> &table, uint n, uint x0, uint y0, uint x, uint y)
         solve(table, n - 1, x0 + p_n_minus_one, y0, x - x0, y -y0);
         solve(table, n - 1, x0, y0 + p_n_minus_one, p_n_minus_one - 1, 0);
         solve(table, n - 1, x0 + p_n_minus_one, y0 + p_n_minus_one, 0, 0);
+        return;
     }
     else if (x < p_n_minus_one && y >= p_n_minus_one)
     {
@@ -62,6 +70,7 @@ void solve(vector<vector<int>> &table, uint n, uint x0, uint y0, uint x, uint y)
         solve(table, n - 1, x0 + p_n_minus_one, y0, 0, p_n_minus_one - 1);
         solve(table, n - 1, x0, y0 + p_n_minus_one, x - x0, y - y0);
         solve(table, n - 1, x0 + p_n_minus_one, y0 + p_n_minus_one, 0, 0);
+        return;
     }
     else if (x >= p_n_minus_one && y >= p_n_minus_one)
     {
@@ -73,8 +82,8 @@ void solve(vector<vector<int>> &table, uint n, uint x0, uint y0, uint x, uint y)
         solve(table, n - 1, x0 + p_n_minus_one, y0, 0, p_n_minus_one - 1);
         solve(table, n - 1, x0, y0 + p_n_minus_one, p_n_minus_one - 1, 0);
         solve(table, n - 1, x0 + p_n_minus_one, y0 + p_n_minus_one, x - x0, y - y0);
+        return;
     }
-    return ;
 }
 
 int main()
@@ -99,14 +108,22 @@ int main()
 
     // output
     ///////////////////////////////////////
-    for (int i = sz(table) - 1; i >= 0; i--)
+    if (flag)
     {
-        for (uint j = 0; j < sz(table[0]); j++)
+        for (int i = sz(table) - 1; i >= 0; i--)
         {
-            cout << table[i][j] << ' ';
+            for (uint j = 0; j < sz(table[0]); j++)
+            {
+                cout << table[i][j] << ' ';
+            }
+            cout << endl;
         }
-        cout << endl;
     }
+    else
+    {
+        cout << -1 << endl;
+    }
+
 
     return 0;
 }
