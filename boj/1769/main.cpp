@@ -9,15 +9,19 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-uint n;
-lld m = 1234567891;
-string input;
-lld ans = 0;
+string n;
+uint ans = 0;
 
-lld modular(uint i)
+int sum_and_mod(string i)
 {
-    if (i == 0) return 1;
-    return (31 * modular(i - 1)) % m;
+    if (i.length() == 1) return (i[0] - '0') % 3;
+    ans++;
+    int sum = 0;
+    for (uint j = 0; j < i.size(); j++)
+    {
+        sum += (i[j] - '0');
+    }
+    return sum_and_mod(to_string(sum)) % 3;
 }
 
 int main()
@@ -28,18 +32,17 @@ int main()
     // input
     ///////////////////////////////////////
     cin >> n;
-    cin >> input;
 
     // algorithm
     ///////////////////////////////////////
-    for (uint i = 0; i < n; i++)
-    {
-        ans += ((input[i] - 'a' + 1) * (modular(i))) % m;
-    }
-    
+    int x = sum_and_mod(n);
+
+
     // output
     ///////////////////////////////////////
-    cout << ans % m << endl;
+    cout << ans << endl;
+    if (x != 0) cout << "NO" << endl;
+    else cout << "YES" << endl;
 
     return 0;
 }

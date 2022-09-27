@@ -9,16 +9,8 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-uint n;
-lld m = 1234567891;
-string input;
-lld ans = 0;
-
-lld modular(uint i)
-{
-    if (i == 0) return 1;
-    return (31 * modular(i - 1)) % m;
-}
+uint n, m;
+unordered_map<string, string> um;
 
 int main()
 {
@@ -27,19 +19,26 @@ int main()
 
     // input
     ///////////////////////////////////////
-    cin >> n;
-    cin >> input;
+    cin >> n >> m;
 
     // algorithm
     ///////////////////////////////////////
     for (uint i = 0; i < n; i++)
     {
-        ans += ((input[i] - 'a' + 1) * (modular(i))) % m;
+        string a, b;
+        cin >> a >> b;
+        um[a] = b;
     }
-    
+
     // output
     ///////////////////////////////////////
-    cout << ans % m << endl;
+    for (uint j = 0; j < m; j++)
+    {
+        string s;
+        cin >> s;
+        cout << um[s] << endl;
+    }
+    
 
     return 0;
 }

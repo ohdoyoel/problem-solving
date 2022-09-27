@@ -9,16 +9,9 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-uint n;
-lld m = 1234567891;
-string input;
-lld ans = 0;
-
-lld modular(uint i)
-{
-    if (i == 0) return 1;
-    return (31 * modular(i - 1)) % m;
-}
+int n, m;
+unordered_map<string, int> _stoi;
+unordered_map<int, string> itos;
 
 int main()
 {
@@ -27,19 +20,34 @@ int main()
 
     // input
     ///////////////////////////////////////
-    cin >> n;
-    cin >> input;
+    cin >> n >> m;
 
     // algorithm
     ///////////////////////////////////////
-    for (uint i = 0; i < n; i++)
+    for (uint i = 1; i <= n; i++)
     {
-        ans += ((input[i] - 'a' + 1) * (modular(i))) % m;
+        string s;
+        cin >> s;
+        _stoi[s] = i;
+        itos[i] = s;
     }
-    
+
     // output
     ///////////////////////////////////////
-    cout << ans % m << endl;
+    for (uint i = 0; i < m; i++)
+    {
+        string s;
+        cin >> s;
+        if (isdigit(s[0]))
+        {
+            cout << itos[atoi(&s[0])] << endl;
+        }
+        else
+        {
+            cout << _stoi[s] << endl;
+        }
+    }
+    
 
     return 0;
 }

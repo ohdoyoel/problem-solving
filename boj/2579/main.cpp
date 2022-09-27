@@ -10,15 +10,6 @@ using pll = pair<lld, lld>;
 // variable
 ///////////////////////////////////////
 uint n;
-lld m = 1234567891;
-string input;
-lld ans = 0;
-
-lld modular(uint i)
-{
-    if (i == 0) return 1;
-    return (31 * modular(i - 1)) % m;
-}
 
 int main()
 {
@@ -28,18 +19,20 @@ int main()
     // input
     ///////////////////////////////////////
     cin >> n;
-    cin >> input;
+    vector<uint> stair;
+    for (uint i = 0; i < n; i++)
+    {
+        uint 
+        stair.push_back()
+    }
 
     // algorithm
     ///////////////////////////////////////
-    for (uint i = 0; i < n; i++)
-    {
-        ans += ((input[i] - 'a' + 1) * (modular(i))) % m;
-    }
     
+
     // output
     ///////////////////////////////////////
-    cout << ans % m << endl;
+    
 
     return 0;
 }
