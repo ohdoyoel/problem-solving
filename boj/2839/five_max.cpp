@@ -6,6 +6,7 @@ using namespace std;
 using lld = long long;
 using pii = pair<int, int>;
 using pll = pair<lld, lld>;
+#define MAX 1e7
 
 // variable
 ///////////////////////////////////////
@@ -19,27 +20,26 @@ int main()
     // input
     ///////////////////////////////////////
     cin >> n;
-    vector<int> dp(n + 1);
 
     // algorithm
     ///////////////////////////////////////
-    for (int i = 1; i < sz(dp); i++)
+    int ans = MAX;
+    int three = 0;
+    while(true)
     {
-        if (i == 1) dp[i] = 100;
-        else if (i == 2) dp[i] = 100;
-        else if (i == 3) dp[i] = 1;
-        else if (i == 5) dp[i] = 1;
-        
-        if (i % 5 == 0) dp[i] = min(dp[i], i / 5);
-        if (i % 3 == 0) dp[i] = min(dp[i], i / 3);
-        dp[i] = min(dp[i], dp[i - 3] + 1);
-        dp[i] = min(dp[i], dp[i - 5] + 1);
+        if ((n - 3 * three) < 0) break;
+        if ((n - 3 * three) % 5 == 0)
+        {
+            ans = (n - 3 * three) / 5 + three;
+            break;
+        }
+        three++;
     }
-    
 
     // output
     ///////////////////////////////////////
-    for (int i = 0; i < sz(dp); i++) cout << dp[i] << endl;
+    if (ans != MAX) cout << ans << endl;
+    else cout << -1 << endl;
 
     return 0;
 }
