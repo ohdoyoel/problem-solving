@@ -11,22 +11,15 @@ using pll = pair<lld, lld>;
 ///////////////////////////////////////
 int n;
 int res = 0;
-vector<vector<int>> table;
+vector<int> col;
 
-int cap()
+bool promising(int i)
 {
-    int _cap = 0;
-    for (int i = 0; i < n; i++)
+    for (int j = 0; j < i; j++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            if (table[i][j] == 0)
-            {
-                _cap++;
-            }
-        }
+        if (col[j] == col[i] || abs(col[i] - col[j]) == abs(i - j)) return false;
     }
-    return _cap;
+    return true;
 }
 
 void solve(int cnt)
@@ -36,46 +29,10 @@ void solve(int cnt)
         res++;
         return;
     }
-    for (int i = 0; i < n; i++)
+    for (int j = 0; j < n; j++)
     {
-        for (int j = 0; j < n; j++)
-        {
-            if (table[i][j] == 0)
-            {
-                vector<vector<int>> temp = table;
-                table[i][j] = 1;
-                for (int x = 0; x < n; x++)
-                {
-                    table[i][x] = 1;
-                    table[x][j] = 1;
-                }
-                for (int x = i; x < n; x++)
-                {
-                    for (int y = j; y < n; y++)
-                    {
-                        table[x][y] = 1;
-                    }
-                    for (int y = j; y >= 0; y--)
-                    {
-                        table[x][y] = 1;
-                    }
-                }
-                for (int x = i; x >= 0; x--)
-                {
-                    for (int y = j; y < n; y++)
-                    {
-                        table[x][y] = 1;
-                    }
-                    for (int y = j; y >= 0; y--)
-                    {
-                        table[x][y] = 1;
-                    }
-                }
-                solve(cnt + 1);
-                table = temp;
-                solve(cnt);
-            }
-        }
+        col[cnt] = j;
+        if (promising(cnt)) solve(cnt + 1);
     }
 }
 
@@ -87,14 +44,10 @@ int main()
     // input
     ///////////////////////////////////////
     cin >> n;
+    col = vector<int>(n, 0);
 
     // algorithm
     ///////////////////////////////////////
-    vector<int> v(n, 0);
-    for (int i = 0; i < n; i++)
-    {
-        table.push_back(v);
-    }
     solve(0);
     
     // output
