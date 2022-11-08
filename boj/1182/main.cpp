@@ -10,18 +10,22 @@ using pll = pair<lld, lld>;
 // variable
 ///////////////////////////////////////
 int n, s;
+int sum = 0;
 int res = 0;
 vector<int> seq;
 
-void solve(int k, int sum)
+void solve(int k)
 {
     if (k == n) // n개까지 순회함
     {
         if (sum == s){res++;} 
         return ;
     }
-    solve(k + 1, sum + seq[k]);
-    solve(k + 1, sum);
+    sum += seq[k];
+    solve(k + 1);
+    //
+    sum -= seq[k];
+    solve(k + 1);
 }
 
 int main()
@@ -42,7 +46,7 @@ int main()
 
     // algorithm
     ///////////////////////////////////////
-    solve(0, 0);
+    solve(0);
 
     // output
     ///////////////////////////////////////

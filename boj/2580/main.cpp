@@ -12,28 +12,35 @@ using pll = pair<lld, lld>;
 int zeros = 0;
 int table[9][9];
 bool exist_num[10];
+bool prob;
 
-void check_candidate(int i, int j) // build eixst_num
+void check_candidate(int i, int j) // build exist_num
 {
-    for (int k = 0; k < 10; k++) exist_num[k]++;
+    for (int k = 0; k < 10; k++) exist_num[k] = false;
     int pv_x = (i / 3) * 3, pv_y = (j / 3) * 3;
 
     for (int k = 0; k < 9; k++)
     {
-        exist_num[table[k][y]] = true;
-        exist_num[table[x][k]] = true;
+        exist_num[table[k][j]] = true;
+        exist_num[table[i][k]] = true;
     }
 
     for (int ic = 0; ic < 3; ic++)
     {
         for (int jc = 0; jc < 3; jc++)
         {
-            exist_num[table[i + ic][j + jc]] = true;
+            exist_num[table[pv_x + ic][pv_y + jc]] = true;
         }
     }
+
+    for (int x = 0; x < 10; x++)
+    {
+        cout << exist_num[x] << " "; 
+    }
+    cout << endl;
 }
 
-void check_again(int i, int j, int num)
+bool check_again(int i, int j, int num)
 {
     int pv_x = (i / 3) * 3, pv_y = (j / 3) * 3;
     for (int k = 0; k < 9; k++)
@@ -45,36 +52,56 @@ void check_again(int i, int j, int num)
     {
         for (int jc = 0; jc < 3; jc++)
         {
-            if (table[i + ic][j + jc] == num) return false;
+            if (table[pv_x + ic][pv_y + jc] == num) return false;
         }
     }
+    return true;
 }
 
-void solve(int i)
+void solve(int n)
 {
-    if (zeros == 0)
+    cout << zeros << endl;
+
+    if (zeros == 0 || n == 81)
     {
         for (int i = 0; i < 9; i++)
         {
-            for (int j = 0; j < 9; j++) cout << board[i][j] << " ";
+            for (int j = 0; j < 9; j++)
+                cout << table[i][j] << " ";
             cout << endl;
         }
+        return ;
     }
 
     int i = n / 9, j = n % 9;
 
     if (table[i][j] == 0)
     {
-        check_candidate(i, j)
+        check_candidate(i, j);
+        bool flag = false;
         for (int k = 1; k <= 9; k++)
         {
-            if (exist_num[k] == false && check_again(i, j, k))
+            if (exist_num[k] == false)
             {
-                table[i][j] = k;
-                exist_num[k] = true;
-                zeros
+                if (check_again(i, j, k))
+                {
+                    table[i][j] = k;
+                    zeros--;
+                    solve(n + 1);
+                    if ()
+                    {
+                        table[i][j] = 0;
+                        zeros++;
+                    }
+                }
+                flag = true;
             }
         }
+        // 모두 1인 경우 -> 이전에 넣은 놈을 다음 ...
+    }
+    else
+    {
+        solve(n + 1);
     }
 }
 
@@ -87,20 +114,19 @@ int main()
     ///////////////////////////////////////
     for (int i = 0; i < 9; i++)
     {
-        for (int j = 0; j < 0; j++)
+        for (int j = 0; j < 9; j++)
         {
-            cin >> talbe[i][j];
+            cin >> table[i][j];
             if (table[i][j] == 0) zeros++;
         }
     }
 
     // algorithm
     ///////////////////////////////////////
-    
+    solve(0);
 
     // output
     ///////////////////////////////////////
-    
 
     return 0;
 }
