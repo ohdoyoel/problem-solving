@@ -31,7 +31,7 @@ int main()
     sort(all(v));
     int l = 0;
     int r = n - 1;
-    int cand = 99999999;
+    int cand = 2000000000;
     while (l < r)
     {
         int sum = v[l] + v[r];
