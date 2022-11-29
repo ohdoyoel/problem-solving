@@ -10,16 +10,36 @@ using pll = pair<lld, lld>;
 // variable
 ///////////////////////////////////////
 int n;
-vector<int> A;
-int m;
+lld m;
+vector<int> v;
+int h;
 
-bool binarySearch(int k, int l, int r)
+void binarySearch(int min, int max)
 {
-    if (l > r) return false;
-    int i = (l + r) / 2;
-    if (k < A[i]) return binarySearch(k, l, i - 1);
-    else if (k == A[i]) return true;
-    else return binarySearch(k, i + 1, r);
+    if (min > max) return;
+    int mid = (min + max) / 2;
+    lld s = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        if (v[i] > mid)
+        {
+            s += (v[i] - mid);
+        }
+    }
+    if (s > m)
+    {
+        h = mid;
+        binarySearch(mid + 1, max);
+    }
+    else if (s == m)
+    {
+        h = mid;
+        return;
+    }
+    else
+    {
+        binarySearch(min, mid - 1);
+    }
 }
 
 int main()
@@ -29,31 +49,21 @@ int main()
 
     // input
     ///////////////////////////////////////
-    cin >> n;
+    cin >> n >> m;
     for (int i = 0; i < n; i++)
     {
         int x;
         cin >> x;
-        A.push_back(x);
-        
+        v.push_back(x);
     }
-    sort(all(A));
-    cin >> m;
-    for (int j = 0; j < m; j++)
-    {
-        int x;
-        cin >> x;
-        cout << binarySearch(x, 0, n - 1) << endl;
-    }
-
 
     // algorithm
     ///////////////////////////////////////
-    
+    binarySearch(0, *max_element(v.begin(), v.end()));
 
     // output
     ///////////////////////////////////////
-    
+    cout << h << endl;
 
     return 0;
 }

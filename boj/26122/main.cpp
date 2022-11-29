@@ -9,17 +9,20 @@ using pll = pair<lld, lld>;
 
 // variable
 ///////////////////////////////////////
-int n;
-vector<int> A;
-int m;
+int k;
+string str;
+int res;
 
-bool binarySearch(int k, int l, int r)
+int score(int i)
 {
-    if (l > r) return false;
-    int i = (l + r) / 2;
-    if (k < A[i]) return binarySearch(k, l, i - 1);
-    else if (k == A[i]) return true;
-    else return binarySearch(k, i + 1, r);
+    int s = 0;
+    while(true)
+    {
+        if (i - s < 0 || i + 1 + s >= k) break;
+        if ((str[i - s] == str[i]) && (str[i + 1] == str[i + 1 + s])) s++;
+        else break;
+    }
+    return s;
 }
 
 int main()
@@ -29,31 +32,26 @@ int main()
 
     // input
     ///////////////////////////////////////
-    cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        int x;
-        cin >> x;
-        A.push_back(x);
-        
-    }
-    sort(all(A));
-    cin >> m;
-    for (int j = 0; j < m; j++)
-    {
-        int x;
-        cin >> x;
-        cout << binarySearch(x, 0, n - 1) << endl;
-    }
-
+    cin >> k;
+    cin >> str;
 
     // algorithm
     ///////////////////////////////////////
-    
+
+    int res = 0;
+
+    for (int i = 0; i < k - 1; i++)
+    {
+        if (str[i] != str[i + 1])
+        {
+            int sc = score(i);
+            if (res < sc) res = sc;
+        }
+    }
 
     // output
     ///////////////////////////////////////
-    
+    cout << 2 * res << endl;
 
     return 0;
 }
