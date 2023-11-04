@@ -16,8 +16,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/workspace/problem-solving/algospot/chapter6",
-      "program": "/workspace/problem-solving/algospot/chapter6/build/Debug/outDebug",
+      "cwd": "/workspace/problem-solving/algospot/chapter6/1_picnic",
+      "program": "/workspace/problem-solving/algospot/chapter6/1_picnic/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
