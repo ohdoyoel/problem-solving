@@ -1,5 +1,5 @@
-// #include <bits/stdc++.h>
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
+// #include "bits/stdc++.h"
 #define endl "\n"
 #define all(x) (x).begin(), (x).end()
 #define sz(x) (uint)(x).size()
@@ -59,7 +59,8 @@ void erase2x2Board(int x, int y, int flag) {
 }
 
 void coverBoard(int x, int y) {
-    if (isBoardAllCovered) { cnt++; return; }
+    if (isBoardAllCovered()) { cnt++; return; }
+    // this have problem
     if (isBoardIncludeUnfillablePiece) { return; }
     
     for (int i = x; i < sz(gameBoard) - 1; ++i) {
