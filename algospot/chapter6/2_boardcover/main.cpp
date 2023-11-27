@@ -13,6 +13,17 @@ vector<vector<bool>> gameBoard;
 int moveX[4] = {0, 1, 0, 1};
 int moveY[4] = {0, 0, 1, 1};
 
+void printBoard() {
+  for (int i = 0; i < sz(gameBoard); ++i) {
+    string line;
+    for (int j = 0; j < sz(gameBoard[0]); ++j) {
+      if (gameBoard[i][j]) line += "W";
+      else line += "B";
+    }
+    cout << line << endl;
+  }
+}
+
 bool isBoardAllCovered() {
     for (int i = 0; i < sz(gameBoard); ++i) {
         for (int j = 0; j < sz(gameBoard[0]); ++j) {
@@ -37,7 +48,7 @@ int numOfWhiteIn2x2Board(int x, int y) {
 bool isBoardIncludeUnfillablePiece() {
     for (int i = 0; i < sz(gameBoard) - 1; ++i) {
         for (int j = 0; j < sz(gameBoard[0]) - 1; ++j) {
-            if (numOfWhiteIn2x2Board(i, j) == 3) return false;
+            if (numOfWhiteIn2x2Board(i, j) >= 3) return false;
         }
     }
     return true;
@@ -57,41 +68,59 @@ void erase2x2Board(int x, int y, int flag) {
     return;
 }
 
-void coverBoard() {
-    if ( isBoardAllCovered() ) { cnt++; return; }
-    // if ( isBoardIncludeUnfillablePiece() ) { return; }
+void coverBoard(int x, int y) {
+    // cout << "{" << endl;
+    // printBoard();
+    
+    if ( isBoardAllCovered() ) {
+      cnt++;
+      // cout << "cnt = " << cnt << endl;
+      // cout << "}" << endl;
+      return;
+    }
+    if ( isBoardIncludeUnfillablePiece() ) {
+      // cout << "Unfillable" << endl;
+      // cout << "}" << endl;
+      return; 
+    }
     
     for (int i = 0; i < sz(gameBoard) - 1; ++i) {
         for (int j = 0; j < sz(gameBoard[0]) - 1; ++j) {
             if (numOfWhiteIn2x2Board(i, j) == 4) {
-                for (int k = 0; k < 4; ++k) {
+                for (int k = 3; k >= 0; --k) {
                     fill2x2Board(i, j, k);
-                    coverBoard();
+                    coverBoard(x + 1, y + 1);
                     erase2x2Board(i, j, k);
+                    // printBoard();
                 }
             } else if (numOfWhiteIn2x2Board(i, j) == 3) {
                 if (!isWhite(gameBoard[i][j])) {
                     fill2x2Board(i, j, 0);
-                    coverBoard();
+                    coverBoard(x + 1, y + 1);
                     erase2x2Board(i, j, 0);
+                    // printBoard();
                 } else if (!isWhite(gameBoard[i + 1][j])) {
                     fill2x2Board(i, j, 1);
-                    coverBoard();
+                    coverBoard(x + 1, y + 1);
                     erase2x2Board(i, j, 1);
+                    // printBoard();
                 } else if (!isWhite(gameBoard[i][j + 1])) {
                     fill2x2Board(i, j, 2);
-                    coverBoard();
+                    coverBoard(x + 1, y + 1);
                     erase2x2Board(i, j, 2);
+                    // printBoard();
                 }
                 else if (!isWhite(gameBoard[i + 1][j + 1])) {
                     fill2x2Board(i, j, 3);
-                    coverBoard();
+                    coverBoard(x + 1, y + 1);
                     erase2x2Board(i, j, 3);
+                    // printBoard();
                 }
             }
         }
     }
     
+    // cout << "}" << endl;
     return ;
 }
 
@@ -118,7 +147,7 @@ int main() {
         }
 
         cnt = 0;
-        coverBoard();
+        coverBoard(0, 0);
         cout << cnt << endl;
     }
 
