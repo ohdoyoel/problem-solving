@@ -106,13 +106,11 @@ int main() {
         for (int j = 0; j < h; ++j) {
             board[j].resize(w);
         }
-        int numOfWhite = 0;
         for (int j = 0; j < h; ++j) {
             string line;
             cin >> line;
             for (int k = 0; k < w; ++k) {
                 board[j][k] = (line[k] == '.') ? true : false;
-                if (line[k] == '.') numOfWhite++;
             }
         }
 
