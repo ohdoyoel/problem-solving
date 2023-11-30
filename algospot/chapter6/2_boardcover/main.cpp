@@ -11,7 +11,7 @@ using pll = pair<lld, lld>;
 int cnt = 0;
 vector<vector<bool>> board;
 
-const vector<pii> LTYPES[4] = {
+const pii LTYPES[4][3] = {
   { make_pair(0,0), make_pair(0,1), make_pair(1,0) },
   { make_pair(0,0), make_pair(0,1), make_pair(1,1) },
   { make_pair(0,0), make_pair(1,0), make_pair(1,1) },
@@ -43,13 +43,14 @@ pii findWhite() {
 }
 
 bool isLInBoard(int x, int y) {
-  return 0 < x && x < sz(board) && 0 < y && y < sz(board[0]);
+  return 0 <= x && x < sz(board) && 0 <= y && y < sz(board[0]);
 }
 
 bool isLPlacable (int x, int y, int state) {
-  for (auto move : LTYPES[state]) {
-    int nx = x + move.first;
-    int ny = y + move.second;
+  for (int i = 0; i < 3; ++i) {
+    int nx = x + LTYPES[state][i].first;
+    int ny = y + LTYPES[state][i].second;
+    // cout << nx << " " << ny << endl;
     if (!isLInBoard(nx, ny) || !isWhite(board[nx][ny])) return false;
   }
   return true;
@@ -65,30 +66,30 @@ void coverLInBoard(int x, int y, int state, char c) {
 }
 
 void solve() {
-  cout << "{" << endl;
-  printBoard();
-  
+  // cout << "{" << endl;
+  // printBoard();
+
   int whiteX = findWhite().first;
   int whiteY = findWhite().second;
-  
+
   // cout << whiteX << " " << whiteY << endl;
-  
+
   if (whiteX == -1) {
     cnt++;
-    cout << "cnt = " << cnt << endl;
-    cout << "}" << endl;
+    // cout << "cnt = " << cnt << endl;
+    // cout << "}" << endl;
     return;
   }
-  
+
   for (int s = 0; s < 4; ++s) {
     if (isLPlacable(whiteX, whiteY, s)) {
-      coverLInBoard(whiteX, whiteY, s, 'W');
-      solve();
       coverLInBoard(whiteX, whiteY, s, 'B');
-      printBoard();
+      solve();
+      coverLInBoard(whiteX, whiteY, s, 'W');
+      // printBoard();
     }
   }
-  cout << "}" << endl;
+  // cout << "}" << endl;
 }
 
 int main() {
@@ -105,17 +106,26 @@ int main() {
         for (int j = 0; j < h; ++j) {
             board[j].resize(w);
         }
+        int numOfWhite = 0;
         for (int j = 0; j < h; ++j) {
             string line;
             cin >> line;
             for (int k = 0; k < w; ++k) {
                 board[j][k] = (line[k] == '.') ? true : false;
+                if (line[k] == '.') numOfWhite++;
             }
         }
 
         cnt = 0;
         solve();
         cout << cnt << endl;
+        
+        // cout << LTYPES[0][0].first << " " << LTYPES[0][0].second << endl;
+        // cout << LTYPES[0][1].first << " " << LTYPES[0][1].second << endl;
+        // cout << LTYPES[0][2].first << " " << LTYPES[0][2].second << endl;
+        // cout << LTYPES[1] << endl;
+        // cout << LTYPES[2] << endl;
+        // cout << LTYPES[3] << endl;
     }
 
     return 0;
