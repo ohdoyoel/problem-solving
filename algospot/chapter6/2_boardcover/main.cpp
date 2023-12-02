@@ -50,7 +50,6 @@ bool isLPlacable (int x, int y, int state) {
   for (int i = 0; i < 3; ++i) {
     int nx = x + LTYPES[state][i].first;
     int ny = y + LTYPES[state][i].second;
-    // cout << nx << " " << ny << endl;
     if (!isLInBoard(nx, ny) || !isWhite(board[nx][ny])) return false;
   }
   return true;
@@ -66,30 +65,19 @@ void coverLInBoard(int x, int y, int state, char c) {
 }
 
 void solve() {
-  // cout << "{" << endl;
-  // printBoard();
 
   int whiteX = findWhite().first;
   int whiteY = findWhite().second;
 
-  // cout << whiteX << " " << whiteY << endl;
-
-  if (whiteX == -1) {
-    cnt++;
-    // cout << "cnt = " << cnt << endl;
-    // cout << "}" << endl;
-    return;
-  }
+  if (whiteX == -1) { cnt++; return; }
 
   for (int s = 0; s < 4; ++s) {
     if (isLPlacable(whiteX, whiteY, s)) {
       coverLInBoard(whiteX, whiteY, s, 'B');
       solve();
       coverLInBoard(whiteX, whiteY, s, 'W');
-      // printBoard();
     }
   }
-  // cout << "}" << endl;
 }
 
 int main() {
@@ -117,13 +105,6 @@ int main() {
         cnt = 0;
         solve();
         cout << cnt << endl;
-        
-        // cout << LTYPES[0][0].first << " " << LTYPES[0][0].second << endl;
-        // cout << LTYPES[0][1].first << " " << LTYPES[0][1].second << endl;
-        // cout << LTYPES[0][2].first << " " << LTYPES[0][2].second << endl;
-        // cout << LTYPES[1] << endl;
-        // cout << LTYPES[2] << endl;
-        // cout << LTYPES[3] << endl;
     }
 
     return 0;
