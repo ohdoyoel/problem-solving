@@ -12,7 +12,35 @@ int cntBlue;
 int cntWhite;
 vector<vector<bool>> isBoardBlue;
 
-int isAllColor
+bool isAllColorSomething(int x, int y, int length, char color) {
+    if (length == 1) return true;
+    if (color == 'B') {
+        for (int i = x; i < x + length; ++i) {
+            for (int j = y; j < y + length; ++j) {
+                if (!isBoardBlue[i][j]) return false;
+            }
+        }
+        return true;
+    } else if (color == 'W') {
+        for (int i = x; i < x + length; ++i) {
+            for (int j = y; j < y + length; ++j) {
+                if (isBoardBlue[i][j]) return false;
+            }
+        }
+        return true;
+    }
+}
+
+void seperateBoard(int x, int y, int length) {
+    if (isAllColorSomething(x, y, length, 'B')) { cntBlue++; return; }
+    else if (isAllColorSomething(x, y, length, 'W')) { cntWhite++; return; }
+    
+    int halfOfLength = length / 2;
+    seperateBoard(x, y, halfOfLength);
+    seperateBoard(x + halfOfLength, y, halfOfLength);
+    seperateBoard(x, y + halfOfLength, halfOfLength);
+    seperateBoard(x + halfOfLength, y + halfOfLength, halfOfLength);
+}
 
 int main() {
     ios_base::sync_with_stdio(0);
@@ -20,22 +48,23 @@ int main() {
 
     int n;
     cin >> n;
-    board.resize(n);
+    isBoardBlue.resize(n);
     for (int i = 0; i < n; ++i) {
-        board[j].resize(n);
+        isBoardBlue[i].resize(n);
     }
     char c;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             cin >> c;
-            isBoardOne[i][j] = (c == 1) ? true : false;
+            isBoardBlue[i][j] = (c == 1) ? true : false;
         }
     }
 
     cntBlue = 0;
     cntWhite = 0;
-    solve();
-    cout << cnt << endl;
-
+    seperateBoard(0, 0, n);
+    cout << cntWhite << endl;
+    cout << cntBlue << endl;
+    
     return 0;
 }
