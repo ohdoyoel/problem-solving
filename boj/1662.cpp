@@ -8,23 +8,19 @@ using lld = long long;
 using pii = pair<int, int>;
 using pll = pair<lld, lld>;
 
-string line;
+int closeParentIdx = -1;
 
-int countLength(int startIdx, int endIdx) {
+int countLength(string line, int startIdx) {
     int cnt = 0;
-    int openParIdx = -1;
-    int closeParIdx = -1;
-    for (int i = startIdx; i <= endIdx; ++i) {
+    for (int i = startIdx; i < sz(line); ++i) {
+        // cout << line[i] << " " << cnt << endl;
         if (line[i] == '(') {
-            openParIdx = i;
+            cnt--;
+            cnt += (line[i - 1] - '0') * countLength(line, i + 1);
+            if (closeParentIdx != -1) cnt += countLength(line, closeParentIdx + 1);
+            return cnt;
         } else if (line[i] == ')') {
-            closeParIdx = i;
-            if (openParIdx != -1 && closeParIdx != -1) {
-              cnt += (line[openParIdx - 1] - '0') * countLength(openParIdx + 1, closeParIdx - 1);
-            }
-            if (closeParIdx != -1) {
-              cnt += countLength(closeParIdx + 1, endIdx);
-            }
+            closeParentIdx = i;
             return cnt;
         } else {
             cnt++;
@@ -37,8 +33,9 @@ int main() {
     ios_base::sync_with_stdio(0);
     cin.tie(0); cout.tie(0);
 
-    cin >> line;
-    cout << countLength(0, sz(line) - 1) << endl;
+    string l;
+    cin >> l;
+    cout << countLength(l, 0) << endl;
 
     return 0;
 }
