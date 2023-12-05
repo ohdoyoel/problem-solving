@@ -22,7 +22,7 @@ vector<int> switchConnectTo[10] = {
     {3, 4, 5, 9, 13}
 };
 
-void plusThreeInClocks(vector<int> _clocks, int idx) {
+void plusThreeInClocks(vector<int>& _clocks, int idx) {
     if (_clocks[idx] == 12) _clocks[idx] = 3;
     else _clocks[idx] += 3;
 }
@@ -35,55 +35,55 @@ bool clocksAllNoon(vector<int> _clocks) {
 }
 
 vector<int> resOfCalc(int v0, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9) {
-  vector<int> resClocks(16) = clocks;
+  vector<int> resClocks = clocks;
   while(v0--) {
     for (int c : switchConnectTo[0]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v1--) {
     for (int c : switchConnectTo[1]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v2--) {
     for (int c : switchConnectTo[2]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v3--) {
     for (int c : switchConnectTo[3]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v4--) {
     for (int c : switchConnectTo[4]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v5--) {
     for (int c : switchConnectTo[5]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v6--) {
     for (int c : switchConnectTo[6]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v7--) {
     for (int c : switchConnectTo[7]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v8--) {
     for (int c : switchConnectTo[8]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   while(v9--) {
     for (int c : switchConnectTo[9]) {
-      plusThreeInClocks(resClocks, c)
+      plusThreeInClocks(resClocks, c);
     }
   }
   return resClocks;
@@ -132,8 +132,8 @@ int main()
             cin >> clocks[i];
         }
 
-        int ans = minCntForClockSync(0);
-        if (ans == 123456789) cout << -1 << endl;
+        int ans = minCntForClockSync();
+        if (ans == 987654321) cout << -1 << endl;
         else cout << ans << endl;
     }
 
