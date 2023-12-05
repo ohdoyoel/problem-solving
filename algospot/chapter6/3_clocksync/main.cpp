@@ -8,7 +8,6 @@ using pii = pair<int, int>;
 using pll = pair<lld, lld>;
 
 // variable
-vector<int> inputClocks(16);
 vector<int> clocks(16);
 vector<int> switchConnectTo[10] = {
     {0, 1, 2},
@@ -22,6 +21,8 @@ vector<int> switchConnectTo[10] = {
     {1, 2, 3, 4, 5},
     {3, 4, 5, 9, 13}
 };
+
+int switchPushed[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 void printClocks() {
     for (int i = 0; i < 16; ++i) {
@@ -47,19 +48,28 @@ bool clocksAllNoon() {
     return true;
 }
 
+bool allSwitchPushedFewerThanFour() {
+    for (int i = 0; i < 10; ++i) {
+        if (switchPushed[i] >= 4) return false;
+    }
+    return true;
+}
+
 int minCntForClockSync(int cnt) {
-    printClocks();
+    // printClocks();
     
     if (clocksAllNoon()) return cnt;
-    // if (inputClocks == clocks) return 0;
+    if (!allSwitchPushedFewerThanFour()) return 123456789;
 
     int ret = 123456789;
     for (int s = 0; s < 10; ++s) {
+        switchPushed[s]++;
         for (int c : switchConnectTo[s]) {
             plusThreeInClocks(c);
         }
         int cand = minCntForClockSync(cnt + 1);
         ret = min(ret, cand);
+        switchPushed[s]--;
         for (int c : switchConnectTo[s]) {
             minusThreeInClocks(c);
         }
@@ -77,11 +87,12 @@ int main()
 
     while(c--) {
         for (int i = 0; i < 16; i++) {
-            cin >> inputClocks[i];
+            cin >> clocks[i];
         }
 
-        clocks = inputClocks;
-        cout << minCntForClockSync(0) << endl;
+        int ans = minCntForClockSync(0);
+        if (ans == 123456789) cout << -1 << endl;
+        else cout << ans << endl;
     }
 
     return 0;
