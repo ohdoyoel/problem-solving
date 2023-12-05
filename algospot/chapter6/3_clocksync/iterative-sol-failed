@@ -1,0 +1,141 @@
+#include <bits/stdc++.h>
+#define endl "\n"
+#define all(x) (x).begin(), (x).end()
+#define sz(x) (int)(x).size()
+using namespace std;
+using lld = long long;
+using pii = pair<int, int>;
+using pll = pair<lld, lld>;
+
+// variable
+vector<int> clocks(16);
+vector<int> switchConnectTo[10] = {
+    {0, 1, 2},
+    {3, 7, 9, 11},
+    {4, 10, 14, 15},
+    {0, 4, 5, 6, 7},
+    {6, 7, 8, 10, 12},
+    {0, 2, 14, 15},
+    {3, 14, 15},
+    {4, 5, 7, 14, 15},
+    {1, 2, 3, 4, 5},
+    {3, 4, 5, 9, 13}
+};
+
+void plusThreeInClocks(vector<int> _clocks, int idx) {
+    if (_clocks[idx] == 12) _clocks[idx] = 3;
+    else _clocks[idx] += 3;
+}
+
+bool clocksAllNoon(vector<int> _clocks) {
+    for (int i = 0; i < 16; ++i) {
+        if (_clocks[i] != 12) return false;
+    }
+    return true;
+}
+
+vector<int> resOfCalc(int v0, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9) {
+  vector<int> resClocks(16) = clocks;
+  while(v0--) {
+    for (int c : switchConnectTo[0]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v1--) {
+    for (int c : switchConnectTo[1]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v2--) {
+    for (int c : switchConnectTo[2]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v3--) {
+    for (int c : switchConnectTo[3]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v4--) {
+    for (int c : switchConnectTo[4]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v5--) {
+    for (int c : switchConnectTo[5]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v6--) {
+    for (int c : switchConnectTo[6]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v7--) {
+    for (int c : switchConnectTo[7]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v8--) {
+    for (int c : switchConnectTo[8]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  while(v9--) {
+    for (int c : switchConnectTo[9]) {
+      plusThreeInClocks(resClocks, c)
+    }
+  }
+  return resClocks;
+}
+
+int minCntForClockSync() {
+    int ret = 987654321;
+    for (int x0 = 0; x0 < 4; ++x0) {
+      for (int x1 = 0; x1 < 4; ++x1) {
+        for (int x2 = 0; x2 < 4; ++x2) {
+          for (int x3 = 0; x3 < 4; ++x3) {
+            for (int x4 = 0; x4 < 4; ++x4) {
+              for (int x5 = 0; x5 < 4; ++x5) {
+                for (int x6 = 0; x6 < 4; ++x6) {
+                  for (int x7 = 0; x7 < 4; ++x7) {
+                    for (int x8 = 0; x8 < 4; ++x8) {
+                      for (int x9 = 0; x9 < 4; ++x9) {
+                          vector<int> newClocks(16);
+                          newClocks = resOfCalc(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
+                          if (clocksAllNoon(newClocks)) {
+                            ret = min(ret, x0 + x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9);
+                          }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return ret;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+    int c;
+    cin >> c;
+
+    while(c--) {
+        for (int i = 0; i < 16; i++) {
+            cin >> clocks[i];
+        }
+
+        int ans = minCntForClockSync(0);
+        if (ans == 123456789) cout << -1 << endl;
+        else cout << ans << endl;
+    }
+
+    return 0;
+}
