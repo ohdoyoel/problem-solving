@@ -18,28 +18,43 @@ void printBoard() {
     }
 }
 
-void draw(int x, int y, int width, int height) {
+bool isHaveToBeBlank(int x, int y, int height, int width) {
+    if (height == 3) {
+      if (x == 1 && y == 2) return true;
+      if ((x == 1 && y == 1) || (x == 1 && y == 3) || (x == 2 && y == 2)) return false;
+    }
+    
+    int heightHalf = height / 2;
+    int widthHalf = (width + 1) / 2 - 1;
+
+    if ((x + y + 1) < height) return true;
+    else if (height < (y - x + 1)) return true;
+    else if (x >= heightHalf && 0 < (y - x + 1) && (x + y + 1) <= width) return true;
+
+    return false;
+}
+
+void draw(int x, int y, int height, int width) {
+    // printBoard();
+    // cout << endl;
+    
     if (height == 1) return;
     
-    int heightThrid = height / 3;
-    int widthThird = width / 3;
-    for (int i = x; i < x + length; ++i) {
-        for (int j = y; j < y + length; ++j) {
-            if ((i + j) < n / 2) board[i][j] = ' ';
+    int heightHalf = height / 2;
+    int widthHalf = (width + 1) / 2 - 1;
+    int widthFourth = (widthHalf + 1) / 2 - 1;
+    for (int i = x; i < x + height; ++i) {
+        for (int j = y; j < y + width; ++j) {
+            if (isHaveToBeBlank(i - x, j - y, height, width)) board[i][j] = ' ';
             else if (board[i][j] != ' ') board[i][j] = '*';
         }
     }
-    draw(x + height / 4, y, lengthThird);
-    draw(x + lengthThird, y, lengthThird);
-    draw(x + 2 * lengthThird, y, lengthThird);
-    draw(x, y + lengthThird, lengthThird);
-    draw(x + lengthThird, y + lengthThird, lengthThird);
-    draw(x + 2 * lengthThird, y + lengthThird, lengthThird);
-    draw(x, y + 2 * lengthThird, lengthThird);
-    draw(x + lengthThird, y + 2 * lengthThird, lengthThird);
-    draw(x + 2 * lengthThird, y + 2 * lengthThird, lengthThird);
-    // printBoard();
-    // cout << endl;
+
+    draw(x, y + widthFourth + 1, heightHalf, widthHalf);
+    draw(x + heightHalf, y, heightHalf, widthHalf);
+    draw(x + heightHalf, y + widthHalf + 1, heightHalf, widthHalf);
+
+
 }
 
 int main() {
@@ -51,10 +66,10 @@ int main() {
     
     board.resize(n);
     for (int i = 0; i < n; ++i) {
-      board[i].resize(5 * n / 3);
+      board[i].resize(2 * n - 1);
     }
 
-    draw(0, 0, 5 * n / 3, n);
+    draw(0, 0, n, 2 * n - 1);
 
     printBoard();
 
