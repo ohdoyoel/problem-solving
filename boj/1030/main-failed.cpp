@@ -10,9 +10,9 @@ using pll = pair<lld, lld>;
 int s, n, k, r1, r2, c1, c2;
 vector<vector<int>> board;
 
-void printBoard(int r1, r2, c1, c2) {
-    for (int i = r1; i < r2; ++i) {
-        for (int j = c1; j < c2; ++j) {
+void printBoard(int r1, int r2, int c1, int c2) {
+    for (int i = r1; i <= r2; ++i) {
+        for (int j = c1; j <= c2; ++j) {
             cout << board[i][j];
         }
         cout << endl;
@@ -28,8 +28,8 @@ bool isBoardAllWhite(int x, int y, int len) {
     return true;
 }
 
-void boardEdit(int time, int x, int y, int len, int centerLen) {
-    if (time == s) return;
+void boardEdit(int t, int x, int y, int len, int centerLen) {
+    if (t == s) return;
     if (isBoardAllWhite(x, y, len)) {
         int cx = x + (len - centerLen) / 2;
         int cy = y + (len - centerLen) / 2;
@@ -39,9 +39,11 @@ void boardEdit(int time, int x, int y, int len, int centerLen) {
             }
         }
 
-        for (int i = x; i < x + len; i += centerLen) {
-            for (int j = y; j < x + len; j += centerLen) {
-                boardEdit(time + 1, i, j, len / n, len / n / n);
+        for (int i = x; i < x + len; i += (len / n)) {
+            for (int j = y; j < y + len; j += len / n) {
+                if (!(i == cx && j == cy)
+                    && (r1 - (len / n)) < i && (i < r2)
+                    && (c1 - (len / n)) < j && (j < c2)) boardEdit(t + 1, i, j, len / n, centerLen / n);
             }
         }
     }
@@ -60,10 +62,13 @@ int main() {
             board[i][j] = 0;
         }
     }
-
-    boardEdit(0, 0, 0, pow(n, s), pow(n, s) / n);
+    
+    boardEdit(0, 0, 0, pow(n, s), k * pow(n, s) / n);
 
     printBoard(r1, r2, c1, c2);
+    
+    cout << endl;
+    printBoard(0, pow(n, s) - 1, 0, pow(n, s) - 1);
 
     return 0;
 }
