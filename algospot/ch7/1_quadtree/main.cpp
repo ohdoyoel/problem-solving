@@ -16,35 +16,39 @@ string vectorStringToString(vector<string> v) {
 }
 
 string flipUpDown(string line) {
+    
     if(sz(line) == 1) return line;
 
-    vector<string> quad;
-    int i = 0;
-    while(i < sz(line)) {
-        if (sz(quad) == 4) break;
-        
+    if (line[0] == 'x') {
+      vector<string> quad;
+      string quadItem = "";
+      int i = 1;
+      while (i < sz(line)) {
+        if(sz(quad) == 4) break;
         string quadItem = "";
-        
-        if (line[i] == 'x') quadItem = flipUpDown(line.substr(i + 1));
-        else quadItem = line[i];
-        
+        if (line[i] != 'x') {
+          quadItem = line[i];
+          i += 1;
+        } else {
+          quadItem = flipUpDown(line.substr(i));
+          i += sz(quadItem);
+        }
         quad.push_back(quadItem);
-        i += sz(quadItem);
+      }
+      
+      // cout << quad[0] << " " << quad[1] << " " << quad[2] << " " << quad[3] << endl;
+
+      string fst = quad[0];
+      string scd = quad[1];
+      quad[0] = quad[2];
+      quad[1] = quad[3];
+      quad[2] = fst;
+      quad[3] = scd;
+      
+      // cout << quad[0] << " " << quad[1] << " " << quad[2] << " " << quad[3] << endl;
+      
+      return 'x' + vectorStringToString(quad);
     }
-
-    cout << quad[0] << " " << quad[1] << " " << quad[2] << " " << quad[3] << endl;
-
-    string fst = quad[0];
-    string scd = quad[1];
-    quad[0] = quad[2];
-    quad[1] = quad[3];
-    quad[2] = fst;
-    quad[3] = scd;
-    
-    cout << quad[0] << " " << quad[1] << " " << quad[2] << " " << quad[3] << endl;
-    
-    if (line[0] == 'x') return 'x' + vectorStringToString(quad);
-    else return vectorStringToString(quad);
 }
 
 int main() {
