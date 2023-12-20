@@ -14,26 +14,50 @@ struct fenceAreaType {
     int height;
     int width;
     pii range;
-}
+};
 
 fenceAreaType maxFenceArea(pii range) {
+    cout << "in range of " << range.first << " " << range.second << endl;
     int width = range.second - range.first;
     if (width == 1) return {fences[range.first], fences[range.first], width, range};
 
-    int midIdx = range.first + w / 2;
+    int midIdx = range.first + width / 2; // 제일 작은 놈의 idx 뽑기
     fenceAreaType leftMaxFenceArea = maxFenceArea(make_pair(range.first, midIdx));
-    fenceAreaType rightMaxFenceArea = maxFenceArea(make_pair(midIdx + 1, range.second));
+    cout << "left Max Is " << leftMaxFenceArea.area << " " << leftMaxFenceArea.height << " " << leftMaxFenceArea.width << " " << leftMaxFenceArea.range.first << "," << leftMaxFenceArea.range.second << endl;
+    fenceAreaType rightMaxFenceArea = maxFenceArea(make_pair(midIdx, range.second));
+    cout << "right Max Is " << rightMaxFenceArea.area << " " << rightMaxFenceArea.height << " " << rightMaxFenceArea.width << " " << rightMaxFenceArea.range.first << "," << rightMaxFenceArea.range.second << endl;
+
 
     if (leftMaxFenceArea.range.second == rightMaxFenceArea.range.first) {
-        int mergedArea = min(leftMaxFenceArea.height, rightMaxFenceArea.height) * (leftMaxFenceArea.width + rightMaxFenceArea.width);
-        int leftArea = leftMaxFenceArea.area;
-        int rightArea = rightMaxFenceArea.area;
-        int maxArea = 
+        int mergedAreaValue = min(leftMaxFenceArea.height, rightMaxFenceArea.height) * (leftMaxFenceArea.width + rightMaxFenceArea.width);
+        int leftAreaValue = leftMaxFenceArea.area;
+        int rightAreaValue = rightMaxFenceArea.area;
+        int maxAreaValue = max({mergedAreaValue, leftAreaValue, rightAreaValue});
+        
+        if (maxAreaValue == mergedAreaValue) {
+            return {
+              maxAreaValue,
+              min(leftMaxFenceArea.height, rightMaxFenceArea.height),
+              leftMaxFenceArea.width + rightMaxFenceArea.width,
+              make_pair(leftMaxFenceArea.range.first, rightMaxFenceArea.range.second)
+            };
+        } else if (maxAreaValue == leftAreaValue) {
+            return leftMaxFenceArea;
+        } else if (maxAreaValue == rightAreaValue) {
+            return rightMaxFenceArea;
+        }
+        
+    } else {
+        if (leftMaxFenceArea.area > rightMaxFenceArea.area) {
+            return leftMaxFenceArea;
+        } else {
+            return rightMaxFenceArea;
+        }
     }
 }
 
 int maxFenceArea() {
-    return maxFenceArea(make_pair(0, len(fences)));
+    return maxFenceArea(make_pair(0, sz(fences))).area;
 }
 
 int main() {
