@@ -18,8 +18,6 @@ int maxFenceArea(pii range) {
 
     int leftMaxFenceArea = maxFenceArea(make_pair(range.first, midIdx));
     int rightMaxFenceArea = maxFenceArea(make_pair(midIdx, range.second));
-    // int leftMaxFenceArea = 0;
-    // int rightMaxFenceArea = 0;
 
     int midMaxFenceHeight = min(fences[midIdx - 1], fences[midIdx]);
     int midMaxFenceArea = 2 * midMaxFenceHeight;
@@ -27,27 +25,35 @@ int maxFenceArea(pii range) {
     int leftEnd = midIdx - 1;
     int rightEnd = midIdx;
 
-    int leftEndFenceHeight, rightEndFenceHeight, cand, w;
+    int leftEndFenceHeight, rightEndFenceHeight, cand, w, nle = leftEnd, nre = rightEnd;
 
     while ((range.first < leftEnd) || (rightEnd < range.second - 1)) {
-      cout << range.first << " " << leftEnd << " " << rightEnd <<  " " << range.second << endl;
-        if (range.first < leftEnd) leftEnd--;
-        if (rightEnd < range.second - 1) rightEnd++;
+        // cout << range.first << " " << leftEnd << " " << rightEnd  << " " << range.second - 1 << endl;
+        if (range.first < leftEnd) nle = leftEnd - 1;
+        if (rightEnd < range.second - 1) nre = rightEnd + 1;
 
-        leftEndFenceHeight = min(fences[leftEnd], midMaxFenceHeight);
-        rightEndFenceHeight = min(fences[rightEnd], midMaxFenceHeight);
+        leftEndFenceHeight = min({fences[nle], leftEndFenceHeight, midMaxFenceHeight});
+        rightEndFenceHeight = min({midMaxFenceHeight, rightEndFenceHeight, fences[nre]});
+
         if (leftEndFenceHeight > rightEndFenceHeight) {
-            rightEnd--;
+            leftEnd = nle;
             w = rightEnd - leftEnd + 1;
             cand = leftEndFenceHeight * w;
+        } else if (leftEndFenceHeight < rightEndFenceHeight) {
+            rightEnd = nre;
+            w = rightEnd - leftEnd + 1;
+            cand = rightEndFenceHeight * w;
         } else {
-            leftEnd++;
+            leftEnd = nle;
+            rightEnd = nre;
             w = rightEnd - leftEnd + 1;
             cand = rightEndFenceHeight * w;
         }
         
         midMaxFenceArea = max(midMaxFenceArea, cand);
     } // 요기 코드를 이상하게 짬
+    
+    // cout << range.first << "," << range.second << " " << leftMaxFenceArea << " " << rightMaxFenceArea << " " << midMaxFenceArea << endl;
     
     return max({leftMaxFenceArea, rightMaxFenceArea, midMaxFenceArea});
 }
