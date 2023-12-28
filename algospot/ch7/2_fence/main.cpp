@@ -25,33 +25,19 @@ int maxFenceArea(pii range) {
     int leftEnd = midIdx - 1;
     int rightEnd = midIdx;
 
-    int leftEndFenceHeight, rightEndFenceHeight, cand, w, nle = leftEnd, nre = rightEnd;
+    int leftEndFenceHeight, rightEndFenceHeight, cand, w;
 
     while ((range.first < leftEnd) || (rightEnd < range.second - 1)) {
-        // cout << range.first << " " << leftEnd << " " << rightEnd  << " " << range.second - 1 << endl;
-        if (range.first < leftEnd) nle = leftEnd - 1;
-        if (rightEnd < range.second - 1) nre = rightEnd + 1;
-
-        leftEndFenceHeight = min({fences[nle], leftEndFenceHeight, midMaxFenceHeight});
-        rightEndFenceHeight = min({midMaxFenceHeight, rightEndFenceHeight, fences[nre]});
-
-        if (leftEndFenceHeight > rightEndFenceHeight) {
-            leftEnd = nle;
-            w = rightEnd - leftEnd + 1;
-            cand = leftEndFenceHeight * w;
-        } else if (leftEndFenceHeight < rightEndFenceHeight) {
-            rightEnd = nre;
-            w = rightEnd - leftEnd + 1;
-            cand = rightEndFenceHeight * w;
+        if (range.first < leftEnd && (rightEnd == range.second - 1 || fences[leftEnd - 1] > fences[rightEnd + 1])) {
+            leftEnd--;
+            midMaxFenceHeight = min(midMaxFenceHeight, fences[leftEnd]);
         } else {
-            leftEnd = nle;
-            rightEnd = nre;
-            w = rightEnd - leftEnd + 1;
-            cand = rightEndFenceHeight * w;
+            rightEnd++;
+            midMaxFenceHeight = min(midMaxFenceHeight, fences[rightEnd]);
         }
         
-        midMaxFenceArea = max(midMaxFenceArea, cand);
-    } // 요기 코드를 이상하게 짬
+        midMaxFenceArea = max(midMaxFenceArea, midMaxFenceHeight * (rightEnd - leftEnd + 1));
+    }
     
     // cout << range.first << "," << range.second << " " << leftMaxFenceArea << " " << rightMaxFenceArea << " " << midMaxFenceArea << endl;
     
