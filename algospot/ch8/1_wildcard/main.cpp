@@ -35,8 +35,8 @@ bool patternMatched(string wildcard, string filename) {
     if (pos == sz(filename)) return isOnlyHaveStar(wildcard.substr(pos));
 
     if (wildcard[pos] == '*') {
-        for (int skip = 0; skip < sz(filename) - pos; ++skip) {
-            if (patternMatched(wildcard.substr(pos + 1), filename.substr(pos + 1 + skip))) {
+        for (int skip = 0; skip + pos <= sz(filename); ++skip) {
+            if (patternMatched(wildcard.substr(pos + 1), filename.substr(pos + skip))) {
                 return true;
             }
         }
