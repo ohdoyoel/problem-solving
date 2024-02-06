@@ -17,8 +17,7 @@ lld sol(int n) {
     else if (n == 1) return ret = 1;
     else if (n == 2) return ret = 2;
     
-    if (n % 2) return ret = 2 * (sol(n - 1) - 1);
-    else return ret = 2 * sol(n - 2) + sol(n - 1);
+    return ret = sol(n - 2) + sol(n - 1);
 }
 
 int main() {
