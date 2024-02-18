@@ -9,8 +9,6 @@ using pll = pair<lld, lld>;
 
 vector<int> A;
 vector<int> B;
-vector<int> result;
-
 int cache[100][100];
 
 // i, j번째 이후를 관찰하여 나오는 jlis의 길이
@@ -18,15 +16,13 @@ int jlis(int i, int j) {
     int& ret = cache[i][j];
     if (ret != 0) return ret;
     
-    // if (i == sz(A) - 1 && j == sz(B) - 1) return ret = (A[i] == B[j]) ? 1 : 2;
-
-    ret = 1;
-    int k = max(A[i], B[j]);
+    ret = 2;
+    int larger = max(A[i], B[j]);
     for (int is = i + 1; is < sz(A); ++is) {
-        if (A[is] > k) ret = max(ret, 1 + jlis(is, j));
+        if (A[is] > larger) ret = max(ret, 1 + jlis(is, j));
     }
     for (int js = j + 1; js < sz(B); ++js) {
-        if (B[js] > k) ret = max(ret, 1 + jlis(i, js));
+        if (B[js] > larger) ret = max(ret, 1 + jlis(i, js));
     }
     return ret;
 }
