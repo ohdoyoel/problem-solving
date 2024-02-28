@@ -16,7 +16,8 @@ int solve(int k) {
     if (k == 0) return ret = 1;
 
     ret = 0;
-    for (int i = 0; i < sz(kind); ++i) ret += solve(kind[i]) + solve(k - kind[i]);
+    for (int i = 0; i < sz(kind); ++i)
+        if (k >= kind[i]) ret += solve(k - kind[i]);
     return ret;
 }
 
