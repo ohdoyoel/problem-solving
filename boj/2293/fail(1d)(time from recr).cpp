@@ -11,7 +11,7 @@ int solve(int k) {
     if (k < 0) return 0;
     
     int& ret = cache[k];
-    if (ret != -1)  return ret;
+    if (ret != -1) return ret;
     
     if (k == 0) return ret = 1;
 
