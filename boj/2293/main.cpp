@@ -8,17 +8,13 @@ vector<int> kind;
 
 // 모든 동전 종류를 보고 합이 k인 경우의 수
 int solve(int k) {
-    if (k < 0) return 0;
-    
-    int& ret = cache[k];
-    if (ret != -1)  return ret;
-    
-    if (k == 0) return ret = 1;
+    cache[0] = 1;
 
-    ret = 0;
     for (int i = 0; i < sz(kind); ++i)
-        if (k >= kind[i]) ret += solve(k - kind[i]);
-    return ret;
+        for (int s = kind[i]; s <= k; ++s)
+            cache[s] += cache[k - kind[i]];
+    
+    return cache[k];
 }
 
 int main() {
