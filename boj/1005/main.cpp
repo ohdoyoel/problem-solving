@@ -22,14 +22,13 @@ int main() {
     while (t--) {
         memset(cache, -1, sizeof(cache));
         int n, k; cin >> n >> k;
-        spentTime.resize(n); before.resize(n, vector<int>());
-        for (int i = 0; i < n; ++i) cin >> spentTime[i];
+        spentTime.resize(n+1); for (int i = 1; i <= n; ++i) cin >> spentTime[i];
+        before.resize(n+1); for (int i = 1; i <= n; ++i) before[i] = {};
         while(k--) {
             int x, y; cin >> x >> y;
             before[y].push_back(x);
         }
         int w; cin >> w;
-        // cout << before[4][0] << endl;
-        // cout << solve(w) << endl;
+        cout << solve(w) << endl;
     }
 }
