@@ -5,6 +5,7 @@ using namespace std;
 
 int n;
 int cache[1002];
+vector<int> result_cache[1002];
 vector<int> A;
 vector<int> result = {};
 
@@ -18,15 +19,17 @@ int solve(int from) {
     int& ret = cache[from+1];
     if (ret != -1) return ret;
 
-    if (from != -1) result.push_back(A[from]);
-    if (from == n - 1) return ret = 1;
+    if (from == n - 1) {
+        result_cache[from].push_back(A[from]);
+        return ret = 1;
+    }
 
     ret = 1;
     for (int next = from+1; next < n; ++next) {
         if (from == -1 || A[next] > A[from]) {
-            int cand = 1 + solve(next);
-            if (cand > ret) ret = cand;
-            else if (cand < ret) result.pop_back();
+            if (1 + solve(next); > ret) {
+                ret = 1 + solve(next);
+            }
         }
     }
     return ret;
