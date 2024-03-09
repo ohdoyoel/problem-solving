@@ -4,12 +4,16 @@ using namespace std;
 using lld = long long;
 
 int k, n;
-vector<lld> A;
+lld A[50000001];
 vector<int> signals;
 
-int sumQueue(vector<int> q) {
+int sumQueue(deque<int> q) {
     int sum = 0;
-    for (int i = 0; i < q.size(); ++i) sum += q[i];
+    for (int i = 0; i < q.size(); ++i) {
+        // cout << q[i] << " ";
+        sum += q[i];
+    }
+    cout << endl;
     return sum;
 }
 
@@ -19,20 +23,25 @@ int solve() {
     deque<int> signalQueue;
 
     for (int i = 0; i < n; ++i) {
-        if (sumQueue(signalQueue) < k) signalQueue.push_back(signals[i]);
+        if (sumQueue(signalQueue) < k) { 
+            signalQueue.push_back(signals[i]);
+            continue;
+        }
         else if (sumQueue(signalQueue) == k) ret++;
-        else signalQueue.pop_front();
+        signalQueue.pop_front();
     }
     return ret;
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    A[0] = 1983;
+    for (int i = 1; i < 50000001; ++i) if (A[i] == 0) A[i] = ((A[i-1] * 214013 + 2531011) % 4294967296);
     int c; cin >> c;
     while (c--) {
-        cin >> k >> n; A.resize(n); signals.resize(n);
-        A[0] = 1983;
-        for (int i = 1; i < n; ++i) if (A[i] == 0) A[i] = ((A[i-1] * 214013 + 2531011) % 4294967296);
+        cin >> k >> n; signals.resize(n);
         for (int i = 0; i < n; ++i) signals[i] = A[i] % 10000 + 1;
-        cout << solve()
+        cout << solve() << endl;
     }
 }
