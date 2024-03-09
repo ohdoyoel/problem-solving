@@ -17,6 +17,8 @@ bool isPldrm(int start, int end) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
     memset(cache, -1, sizeof(cache));
     cin >> n; seq.resize(n);
     for (int i = 0; i < n; ++i) cin >> seq[i];
