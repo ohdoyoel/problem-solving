@@ -18,20 +18,21 @@ struct RNG {
 
 // signals중 합이 k인 부분 수열의 개수
 int solve() {
-    int ret = 0;
+    int ret = 0;int sum = 0;
     RNG rng;
-    deque<int> signalQueue;
-    int sum = 0;
+    queue<int> signalQueue;
 
     for (int i = 0; i < n; ++i) {
         int sign = rng.next();
-        cout << sum << endl;
-        if (sum < k) {
-            sum += sign;
-            signalQueue.push_back(sign);
-        } else if (sum == k) ret++;
-        sum -= signalQueue.front();
-        signalQueue.pop_front();
+        sum += sign;
+        signalQueue.push(sign);
+
+        while (sum > k) {
+            sum -= signalQueue.front();
+            signalQueue.pop();
+        }
+        
+        if (sum == k) ret++;
     }
     return ret;
 }
