@@ -2,26 +2,27 @@
 #define endl "\n"
 using namespace std;
 
-map<int, int> A;
-
-int nge(map<int,int>::iterator it) {
-    auto jt =it;
-    while(jt != A.end()) {
-        if (jt->second > it->second) return jt->first;
-        jt++;
-    }
-    return -1;
-}
+stack<int> s;
+vector<int> A;
+vector<int> nge;
 
 int main() {
-    int n; cin >> n;
-    for (int i = 1; i <= n; i++) {
-        int a; cin >> a;
-        A[a] = i;
+    int n; cin >> n; A.resize(n); nge.resize(n);
+    for(int i=0; i<n; i++) cin >> A[i];
+
+    for (int i=0; i<n; i++) {
+        while(!s.empty() && A[s.top()] < A[i]) {
+            nge[s.top()] = A[i];
+            s.pop();
+        }
+        s.push(i);
+    }
+
+    while(!s.empty()) {
+        nge[s.top()] = -1;
+        s.pop();
     }
     
-    for (int i = 1; i <= n; ++i) {
-        for (auto pii = A.begin(); pii != A.end(); pii++) if (i == pii->second) cout << nge(pii) << " ";
-    }
+    for (int i=0; i<n; i++) cout << nge[i] << " ";
     cout << endl;
 }
