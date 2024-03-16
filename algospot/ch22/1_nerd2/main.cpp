@@ -14,9 +14,10 @@ void removeDominated(int x, int y) {
     auto it = coords.lower_bound(x);
     if (it == coords.begin()) return;
     it--;
+
     while(it->second < y) {
-        coords.erase(it);
-        if (it == coords.begin()) break;
+        it = coords.erase(it);
+        if(it == coords.begin()) break;
         else it--;
     }
 }
@@ -41,4 +42,5 @@ int main() {
         }
         cout << res << endl;
     }
+    return 0;
 }
