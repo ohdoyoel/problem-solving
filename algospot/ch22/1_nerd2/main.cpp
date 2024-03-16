@@ -2,13 +2,15 @@
 #define endl "\n"
 using namespace std;
 
-bool isDominated(map<int,int>& coords, int x, int y) {
+map<int,int> coords;
+
+bool isDominated(int x, int y) {
     auto it = coords.lower_bound(x);
     if (it == coords.end()) return false;
     return y < it->second;
 }
 
-void removeDominated(map<int,int>& coords, int x, int y) {
+void removeDominated(int x, int y) {
     auto it = coords.lower_bound(x);
     if (it == coords.begin()) return;
     it--;
@@ -19,9 +21,9 @@ void removeDominated(map<int,int>& coords, int x, int y) {
     }
 }
 
-int coordsSize(map<int,int>& coords, int x, int y) {
-    if (isDominated(coords, x, y)) return coords.size();
-    removeDominated(coords, x, y);
+int coordsSize(int x, int y) {
+    if (isDominated(x, y)) return coords.size();
+    removeDominated(x, y);
     coords[x] = y;
     return coords.size();
 }
@@ -31,12 +33,11 @@ int main() {
     cin.tie(0); cout.tie(0);
     int c; cin >> c;
     while (c--) {
-        int n; cin >> n;
-        map<int,int> coords;
+        int n; cin >> n; coords.clear();
         int res = 0;
         while(n--) {
             int x, y; cin >> x >> y;
-            res += coordsSize(coords, x, y);
+            res += coordsSize(x, y);
         }
         cout << res << endl;
     }
