@@ -11,11 +11,14 @@ struct Node {
 vector<Node*> nodes;
 
 int main() {
-    int n; cin >> n;nodes.resize(n+1);
+    int n; cin >> n; nodes.resize(n+1);
+    cout << n;
 
-    for (int i=1; i<n; i++) nodes[i]->value = i;
+    nodes[1]->value = 1;
     
-    for (int i=0; i<n-1; i++) {
+    //for (int i=1; i<=n; i++) nodes[i]->value = i;
+    
+    /*for (int i=0; i<n-1; i++) {
         int x, y; cin >> x >> y;
         
         if (x == 1 || nodes[x]->parent != NULL) {
@@ -27,5 +30,5 @@ int main() {
         }
     }
 
-    for (int i=2; i<=n; i++) cout << nodes[i]->value << endl;
+    for (int i=2; i<=n; i++) cout << nodes[i]->value << endl;*/
 }
