@@ -7,11 +7,14 @@ list<int> stations;
 list<int>::iterator it;
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+  
     int n, m; cin >> n >> m;
     while(n--) {
         int c; cin >> c;
-        stationToIt[c] = stations.end();
         stations.push_back(c);
+        stationToIt[c] = next(stations.end(), -1);
     }
 
     while(m--) {
@@ -36,23 +39,17 @@ int main() {
             stationToIt[j] = it;
         } else if (cmd == "CN") {
             int i; cin >> i;
-            while (*it != i) {
-                it++;
-                if (it == stations.end()) it = stations.begin();
-            }
-            it++;
+            it = stationToIt[i];
+            ++it;
             if (it == stations.end()) it = stations.begin();
             cout << *it << endl;
             stationToIt[*it] = stationToIt[0];
             it = stations.erase(it);
         } else if (cmd == "CP") {
             int i; cin >> i;
-            while (*it != i) {
-                it++;
-                if (it == stations.end()) it = stations.begin();
-            }
+            it = stationToIt[i];
             if (it == stations.begin()) it = stations.end();
-            it--;
+            --it;
             cout << *it << endl;
             stationToIt[*it] = stationToIt[0];
             it = stations.erase(it);
