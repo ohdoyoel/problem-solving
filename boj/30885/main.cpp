@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #define endl "\n"
 using namespace std;
-using pii = pair<int,int>
+using pii = pair<int,int>;
 
 list<pii> A;
 
@@ -16,14 +16,14 @@ int main() {
     }
 
     while(A.size() != 1) {
-        for (auto& it=A.begin(); it!=A.end(); ++it) {
+        for (auto it=A.begin(); it!=A.end(); ++it) {
             if (it!=A.begin() && next(it, -1)->first <= it->first){
                 it->first += next(it, -1)->first;
-                it = A.erase(next(it, -1));
+                A.erase(next(it, -1));
             }
             if (it!=next(A.end(), -1) && it->first >= next(it, 1)->first) {
                 it->first += next(it, 1)->first;
-                it = A.erase(next(it, 1));
+                A.erase(next(it, 1));
             }
         }
     }
