@@ -8,7 +8,7 @@ vector<int> elem;
 map<int,int> elemToMinComp;
 
 int solve(int k) {
-    if (k == 0) return elem[k];
+    if (k == 1) return elem[k-1] + elem[k];
     return elem[k] + 2 * solve(k-1);
 }
 
