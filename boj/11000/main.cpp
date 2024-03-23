@@ -3,18 +3,19 @@
 using namespace std;
 using pii = pair<int,int>;
 
-struct compSF {
-    bool operator() (pii a, pii b) { return a->second < b->first; }
-};
-
-prioirity_queue<pii, vector<pii>, compSF> st;
+multimap<int,int> st;
 
 int main() {
     int n; cin >> n;
     while (n--) {
         int s, t; cin >> s >> t;
-        st.push(make_pair(s, t));
+        st.insert(make_pair(s, t));
     }
 
-    for (pii s : st) cout << st.first << " " st.second << endl;
+    int ret = 0;
+    for (auto it=st.begin(); it!=st.end(); it++) {
+        auto next = st.lower_bound(it->second);
+        if (next == st.end()) ret++;
+    }
+    cout << ret << endl;
 }
