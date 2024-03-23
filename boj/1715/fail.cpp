@@ -14,7 +14,7 @@ int main() {
     int ret = minHeap.top(); minHeap.pop();
     ret += minHeap.top(); minHeap.pop();
     while(!minHeap.empty()) {
-        ret *= 2; 
+        ret *= 2;
         ret += minHeap.top(); minHeap.pop();
     }
     cout << ret << endl;
