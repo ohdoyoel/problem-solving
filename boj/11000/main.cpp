@@ -14,8 +14,10 @@ int main() {
 
     int ret = 0;
     for (auto it=st.begin(); it!=st.end(); it++) {
-        auto next = st.lower_bound(it->second);
-        if (next == st.end()) ret++;
+        auto nxt = st.lower_bound(it->second);
+        if (nxt == st.end()) ret++;
+        else st.erase(nxt);
+        st.erase(it);
     }
     cout << ret << endl;
 }
