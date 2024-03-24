@@ -13,11 +13,18 @@ int main() {
     }
 
     int ret = 0;
-    for (auto it=st.begin(); it!=st.end(); it++) {
-        auto nxt = st.lower_bound(it->second);
-        if (nxt == st.end()) ret++;
-        else st.erase(nxt);
-        st.erase(it);
+    while(!st.empty()){
+        auto it = st.begin();
+        while(true) {
+            auto nxt = st.lower_bound(it->second);
+            st.erase(it);
+            if (nxt == st.end()) {
+                ret++;
+                break;
+            }
+            it = nxt;
+        }
     }
+    
     cout << ret << endl;
 }
