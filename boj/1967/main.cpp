@@ -2,68 +2,54 @@
 #define endl "\n"
 #define all(x) (x).begin(), (x).end()
 using namespace std;
-using pii = pair<int,int>;
+typedef pair<int,int> pvw;
 
-struct compFirst {
-    bool operator()(pii a, pii b) { return a.first > b.first; };
-} comp;
+int n;
+vector<vector<pvw>> adjacentVW;
+vector<int> adjSize;
+vector<bool> visited, isTo;
 
-// childEdges[i] = i에서 자녀로 연결된 간선들
-vector<vector<pii>> childEdges;
-
-struct node {
-    vector<pair<node*,int>> children;
-};
-
-using pni = pair<node*,int>;
-
-node* getTree(int root) {
-    node* ret = new node();
-    for (pii childCost : childEdges[root]) {
-        ret->children.push_back(make_pair(getTree(childCost.first), childCost.second));
-    }
-    return ret;
-}
-
-int height(node* root) {
+int dfsHeight(int v) {
+    visited[v] = true;
     int ret = 0;
-    for (pni childCost : root->children) ret = max(ret, childCost.second+height(childCost.first));
-    cout << ret << endl;
+    for (pvw adjVW : adjacentVW[v]) {
+        if (!visited[adjVW.first]) ret = max(ret, adjVW.second+dfsHeight(adjVW.first));
+    }
+    visited[v] = false;
     return ret;
 }
 
-int radiusCand(node* root) {
-    if (root->children.size() == 0) return 0;
-    if (root->children.size() == 1) return root->children[0].second+height(root->children[0].first);
-    vector<pii> costHeights;
-    for (pni childCost : root->children) {
-        costHeights.push_back(make_pair(childCost.second, height(childCost.first)));
-    }
-    sort(all(costHeights), comp);
-    return costHeights[0].second + costHeights[0].first + costHeights[1].first + costHeights[1].second;
+int dfsRadiusWithCenter(int v) {
+    visited[v] = true;
+    vector<int> childHeight;
+    for (pvw adjVW : adjacentVW[v]) childHeight.push_back(adjVW.second+dfsHeight(adjVW.first));
+    visited[v] = false;
+    sort(all(childHeight), greater<int>());
+    return childHeight[0]+childHeight[1];
 }
 
-int radius = 0;
-void setRadius(node* root) {
-    for (pni childCost : root->children) {
-        radius = max(radius, radiusCand(childCost.first));
-        setRadius(childCost.first);
+int dfsRadius(int v) {
+    if (adjSize[v] < 2) return dfsHeight(v);
+    return dfsRadiusWithCenter(v);
+}
+
+int dfsMaxRadius() {
+    int ret = 0;
+    for (int v=1; v<=n; v++) {
+        if (adjSize[v]>=2 || !isTo[v]) ret = max(ret, dfsRadius(v));
     }
+    return ret;
 }
 
 int main() {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    
-    int n; cin >> n; childEdges.resize(n+1);
+    ios_base::sync_with_stdio; cin.tie(0); cout.tie(0);
+    cin>>n; adjacentVW.resize(n+1); adjSize.resize(n+1); visited.resize(n+1); isTo.resize(n+1);
     int t = n-1;
     while(t--) {
-        int s, d, c; cin >> s >> d >> c;
-        childEdges[s].push_back(make_pair(d, c));
+        int s,d,w; cin>>s>>d>>w;
+        adjacentVW[s].push_back(make_pair(d,w));
+        adjSize[s]++;
+        isTo[d] = true;
     }
-
-    node* tree = getTree(1);
-    setRadius(tree);
-    
-    cout << radius << endl;
+    cout << dfsMaxRadius() << endl;
 }
