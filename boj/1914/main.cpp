@@ -1,86 +1,39 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include <cstdint>
 #define endl "\n"
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)(x).size()
+#define sz(x) (long long int)(x).size()
 using namespace std;
-using lld = long long;
-using pii = pair<int, int>;
-using pll = pair<lld, lld>;
+using pii = pair<int,int>;
+// using lld = ;
 
-// variable
-///////////////////////////////////////
-uint n;
-
-unsigned lld inst_len(uint k)
-{
-    if (k == 1) return 1;
-    return 2 * inst_len(k - 1) + 1;
+// 큰 수는 string으로 처리해야 함
+string powNMinusOne(int n) {
+    string temp = to_string(pow(2, n));
+    int idx = temp.find('.');
+    temp = temp.substr(0, idx);
+    temp[temp.length() - 1]--;
+    return temp;
 }
 
-uint other(uint x, uint y)
-{
-    if ((x == 1 && y == 2) || (x == 2 && y == 1))
-        return 3;
-    else if ((x == 1 && y == 3) || (x == 3 && y == 1))
-        return 2;
-    else if ((x == 2 && y == 3) || (x == 3 && y == 2))
-        return 1;
-}
+int n;
 
-void solve(uint k, uint current, uint target)
-{
-    if (k == 1)
-    {
-        cout << current << ' ' << target << endl;
+// 하노이탑에서 상단 k개를 current에서 target으로 옮긴다.
+void move(int k, int current, int target) {
+    if (k==1) {
+        cout << current << " " << target << endl;
         return;
     }
-    solve(k - 1, current, other(current, target));
-    solve(1, current, target);
-    solve(k - 1, other(current, target), target);
-    return;
+
+    move(k-1, current, 6-(current+target));
+    move(1, current, target);
+    move(k-1, 6-(current+target), target);
 }
 
-int main()
-{
-    ios_base::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-
-    // input
-    ///////////////////////////////////////
+int main() {
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+  
     cin >> n;
-
-    // algorithm
-    ///////////////////////////////////////
-    if (n <= 20)
-    {
-        cout << inst_len(n) << endl;
-        solve(n, 1, 3);
-    }
-    else
-    {
-        cout << inst_len(n) << endl;
-    }
     
-    // output
-    ///////////////////////////////////////
-
-    return 0;
+    cout << powNMinusOne(n) << endl;
+    if (n <= 20) move(n, 1, 3);
 }
-
-// pseudo code
-///////////////////////////////////////
-/*
-uint n <- input
-table <- [vector<int>a(0~n), vector<int>b, vector<int>c]
-
-void solve(n, current, target)
-    if (n == 1)
-        table[current].back to table[target].push_back
-        print(current, target)
-        return ;
-    solve(n - 1, current, space)
-    print(1, current, target)
-    return ;
-
-solve(n, 1, 3)
-*/
