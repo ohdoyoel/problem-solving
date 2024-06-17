@@ -3,19 +3,20 @@
 #define sz(x) (uint)(x).size()
 using namespace std;
 
+int k;
 vector<int> A;
+vector<int> tree;
 
-void showA(int start, int end) {
-    if (start==end) return;
-    
-    int mid = (start+end-1) / 2;
-    cout << A[mid] << " ";
-    showA(start, mid);
-    showA(mid+1, end);
+void fillTree(int start, int end, int depth) {
+    if (depth == k) return;
+
+    int mid = (start+end)/2;
+    tree[]
 }
 
 int main() {
-    int k; cin >> k; A.resize(pow(2, k)-1);
+    cin >> k; A.resize(pow(2, k)-1); tree.resize(pow(2, k)-1);
     for (int i=0; i<sz(A); i++) cin >> A[i];
-    showA(0, sz(A));
+    fillTree(0, sz(A), 0);
+    printTree();
 }
