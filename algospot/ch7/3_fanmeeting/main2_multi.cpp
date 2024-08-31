@@ -14,6 +14,8 @@ vector<int> multiply() {
             res[a+b+1] += m / 10;
         }
     }
+    // for (int r : res) cout << r << ' ';
+    // cout << endl;
     return res;
 }
 
@@ -27,7 +29,7 @@ int main() {
 
         vector<int> res = multiply();
         int zeroCnt = 0;
-        for (int i=0; i<strA.size(); i++) if (res[i] == 0) zeroCnt++;
+        for (int i=A.size()-1; i<B.size(); i++) if (res[i] == 0) zeroCnt++;
         cout << zeroCnt << endl;
     }
 }
