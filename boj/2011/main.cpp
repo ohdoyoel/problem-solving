@@ -15,15 +15,21 @@ int decrp(int i) {
     int& ret = cache[i];
     if (ret!=-1) return ret;
 
-    // 1: 1, 1x 두가지로 해석됨
-    // 2: 2, 2x 두가지로 해석됨
-    // 3~9: 한가지로 해석됨
     ret = 0;
-    for (int i=0; i<pwd.size(); i++) {
-        ret += decrp(i+1);
-        int n = pwd[i] - '0';
-        if (n==1 || n==2) ret += decrp(i+2);
-    }
+
+    // 1자리로 먼저 해석
+    int first = pwd[i] - '0';
+    if (first==0) ret+=0;
+    else ret+=1*decrp(i+1);
+
+    if (i==pwd.size()-1) return ret;
+
+    // 2자리로 해석
+    int second = pwd[i+1]  - '0';
+    if (fisrt==1 && second==0) ret+=1*=decrp(i+2);
+    else if (first*10+second<=26) ret+=2*decrp(i+2);
+    else ret+=1*=decrp(i+2);
+
     return ret;
 }
 
