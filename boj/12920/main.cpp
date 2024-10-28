@@ -2,7 +2,7 @@
 #define endl "\n"
 using namespace std;
 
-int cache[101]10001];
+int cache[101][10001];
 int n, m;
 vector<int> V, C, K;
 
@@ -19,9 +19,9 @@ int contentment(int i, int volume) {
 }
 
 int main() {
-    ios_base::syn_with_stdio(0); cin.tie(0); cout.tie(9);
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     memset(cache, -1, sizeof(cache));
-    cin >> n >> m;
+    cin >> n >> m; V.resize(n); C.resize(n); K.resize(n);
     for (int i=0; i<n; ++i) cin >> V[i] >> C[i] >> K[i];
     cout << contentment(0, m) << endl;
 }
