@@ -2,45 +2,38 @@
 #define endl "\n"
 using namespace std;
 
-int cache[1001][1001], choice[1001][1001][2];
+// c : 0~i, 0~j의 lcs
+int c[1001][1001];
 string A, B;
 
-int lcs(int a, int b) {
-    int& ret = cache[a][b];
-    if (ret!=-1) return ret;
+void solve() {
+    c[0][0] = A[0]==B[0];
+    for (int i=1; i<A.size(); ++i) c[i][0] = max(c[i-1][0], A[i]==B[0] ? 1 : 0);
+    for (int j=1; j<B.size(); ++j) c[0][j] = max(c[0][j-1], A[0]==B[j] ? 1 : 0);
 
-    ret = 0;
-    int iMax = -1;
-    int jMax = -1;
-    for (int i=a; i<A.size(); ++i) {
-        for (int j=b; j<B.size(); ++j) {
-            if (A[i] == B[j]) {
-                int cand = 1+lcs(i+1, j+1);
-                if (ret < cand) {
-                    ret = cand;
-                    iMax = i;
-                    jMax = j;
-                }
-            }
+    for (int i=1; i<A.size(); ++i) {
+        for (int j=1; j<B.size(); ++j) {
+            if (A[i]==B[j]) c[i][j] = 1 + c[i-1][j-1];
+            else c[i][j] = max(c[i][j-1], c[i-1][j]);
+            
         }
     }
-    choice[a][b][0] = iMax;
-    choice[a][b][1] = jMax;
-    return ret;
+    cout << c[A.size()-1][B.size()-1] << endl;
 }
 
-void showLcs(int i, int j) {
-    cout << A[choice[i][j][0]];
-    int aNext = choice[i][j][0]+1;
-    int bNext = choice[i][j][1]+1;
-    if (aNext<A.size() && bNext<B.size()) showLcs(aNext, bNext);
+void print(int i, int j) {
+    if (A[i]==B[j]) {
+        if (i>0 && j>0) print(i-1, j-1);
+        cout << A[i];
+        return;
+    }
+    if (c[i-1][j] > c[i][j-1]) print(i-1, j);
+    else print(i, j-1);
 }
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    memset(cache, -1, sizeof(cache));
-    memset(choice, -1, sizeof(choice));
     cin >> A >> B;
-    cout << lcs(0, 0) << endl;
-    showLcs(0, 0);
+    solve();
+    print(A.size()-1, B.size()-1);
 }
