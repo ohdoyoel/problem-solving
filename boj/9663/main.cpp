@@ -1,64 +1,33 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 #define endl "\n"
-#define all(x) (x).begin(), (x).end()
-#define sz(x) (int)(x).size()
 using namespace std;
-using lld = long long;
-using pii = pair<int, int>;
-using pll = pair<lld, lld>;
 
-// variable
-///////////////////////////////////////
 int n;
-int res = 0;
-vector<int> col;
+vector<int> Q; // Q[i] = j, 퀸은 (i, j)에 있음.
 
-bool promising(int i)
-{
-    for (int j = 0; j < i; j++)
-    {
-        if (col[j] == col[i] || abs(col[i] - col[j]) == abs(i - j)) return false;
-    }
+bool placable(int x, int y) {
+    for (int i=0; i<n; ++i) if (Q[i]!=-1 && (x==i || y==Q[i] || abs(x-i)==abs(y-Q[i]))) return false;
     return true;
 }
 
-void solve(int cnt)
-{
-    if (cnt == n)
-    {
-        res++;
-        return;
-    }
-    for (int j = 0; j < n; j++)
-    {
-        col[cnt] = j;
-        if (promising(cnt)) solve(cnt + 1);
-    }
-}
-
-int main()
-{
-    ios_base::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-
-    // input
-    ///////////////////////////////////////
-    cin >> n;
-    col = vector<int>(n, 0);
-
-    // algorithm
-    ///////////////////////////////////////
-    solve(0);
+// r번째 행을 채우고 개수 반환
+int fill(int r) {
+    if (r==n) return 1;
     
-    // output
-    ///////////////////////////////////////
-    cout << res << endl;
-
-    return 0;
+    int ret = 0;
+    for (int c=0; c<n; ++c) {
+        if (placable(r, c)) {
+            Q[r] = c;
+            ret += fill(r+1);
+            Q[r] = -1;
+        }
+    }
+    return ret;
 }
 
-// pseudo code
-///////////////////////////////////////
-/*
-
-*/
+int main() {
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    cin >> n; Q.resize(n);
+    for (int i=0; i<n; ++i) Q[i] = -1;
+    cout << fill(0) << endl;
+}
