@@ -8,6 +8,10 @@ vector<bool> P;
 vector<int> A;
 
 int AtoNum() {
+    // if (A.size()>1 && A[0]==5 && A[1]==4) {
+    // for (auto a : A) cout << a << ' ';
+    // cout << endl;
+    // }
     int ret = 100;
     for (int i=0; i<A.size(); ++i) {
         int a = A[i];
@@ -27,8 +31,8 @@ int AtoNum() {
 
 // A에 경우의 수 (순열) 기록
 int solve() {
-    if (AtoNum() == n) return A.size();
-    if (A.size() > to_string(n).length()) return 987654321;
+    if (AtoNum()==n) return A.size();
+    // if (A.size() > 6) return 987654321;
 
     int ret = 987654321;
     for (int i=0; i<12; ++i) {
