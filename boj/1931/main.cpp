@@ -8,12 +8,13 @@ vector<int> A;
 
 void solve() {
     sort(M.begin(), M.end(), [](const auto &a, const auto &b) {
+        if (a.second == b.second) return a.first < b.first;
         return a.second < b.second;
     });
 
     int idx = 0;
-    A.push_back(0);
-    for (int i=0; i<n; ++i) {
+    A = { 0 };
+    for (int i=1; i<n; ++i) {
         if (M[idx].second <= M[i].first) {
             idx = i;
             A.push_back(idx);
