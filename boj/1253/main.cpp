@@ -9,20 +9,19 @@ int solve() {
     sort(A.begin(), A.end());
     int ret = 0;
     for (int i=0; i<n; ++i) {
-        int start = i==0 ? 1 : 0;
-        int end = i==n-1 ? n-2 : n-1;
+        int start = 0;
+        int end = n-1;
         while (start < end) {
-            int sum = A[start]+A[end];
-            if (sum<A[i]) {
-                start++;
-                if (start==i) start++;
-            } else if (sum>A[i]) {
-                end--;
-                if (end==i) end--;
-            } else {
-                ret++;
-                // cout << A[i] <<' ' << start <<  ' ' << end << endl;
-                break;
+            if (start==i) start++;
+            else if (end==i) end--;
+            else {
+                int sum = A[start]+A[end];
+                if (sum<A[i]) start++;
+                else if (sum>A[i]) end--;
+                else {
+                    ret++;
+                    break;
+                }
             }
         }
     }
