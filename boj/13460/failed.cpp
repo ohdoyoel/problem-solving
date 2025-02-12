@@ -6,71 +6,52 @@ int n, m;
 vector<vector<char>> B;
 
 bool findRed() {
-    for (int i=0; i<n; ++i) for (int j=0; j<m; ++j) if(B[i][j]=='R') return false;
+    for (int i=0; i<B.size(); ++i) for (int j=0; j<B[0].size(); ++j) if(B[i][j]=='R') return false;
     return true;
 }
 
-void move(int dir) {
-    if (dir==0) {
-        for (int i=0; i<n; ++i) {
-            for (int j=0; j<m; ++j) {
-                if (B[i][j]!='#' && B[i][j]!='.' && B[i-1][j]=='.') {
-                    B[i-1][j] = B[i][j];
-                    B[i][j] = '.'
-                }
-            }
+void rotate() {
+    vector<vector<char>> _B;
+    _B.resize(B[0].size());
+    for (int i=0; i<B[0].size(); ++i) B[i].resize(B.size());
+    for (int i=0; i<B.size(); ++i) {
+        for (int j=0; j<B[0].size(); ++j) {
+            _B[i][j] = B[j][B[0].size()-i];
         }
     }
-    else if (dir==1) {
-        for (int i=0; i<n; ++i) {
-            for (int j=0; j<m; ++j) {
-                if (B[i][j]!='#' && B[i][j]!='.' && B[i+1][j]=='.') {
-                    B[i+1][j] = B[i][j];
-                    B[i][j] = '.'
+}
+
+void move() {
+    for (int i=0; i<B.size(); ++i) {
+        vector<char> line = B[i];
+        for (int j=0; j<line.size(); ++j) {
+            if (line[j]!='#' && line[j]!='.' && line[j]!='O') {
+                int idx = j;
+                while (idx>0 && line[idx]!='#' && line[idx]!='.' && line[idx]!='O') idx--;
+                if (line[j]=='R' && line[idx-1]=='O') {
+                    line[idx] = '.';
+                    line[j] = '.';
                 }
-            }
-        }
-    }
-    else if (dir==2) {
-        for (int i=0; i<n; ++i) {
-            for (int j=0; j<m; ++j) {
-                if (B[i][j]!='#' && B[i][j]!='.' && B[i][j-1]=='.') {
-                    B[i][j-1] = B[i][j];
-                    B[i][j] = '.'
-                }
-            }
-        }
-    }
-    else if (dir==3) {
-        for (int i=0; i<n; ++i) {
-            for (int j=0; j<m; ++j) {
-                if (B[i][j]!='#' && B[i][j]!='.' && B[i][j+1]=='.') {
-                    B[i][j+1] = B[i][j];
-                    B[i][j] = '.'
-                }
+                line[idx] = line[j];
+                line[j] = '.';
             }
         }
     }
 }
 
-int solve(int depth) {
+int solve(int depth, int dir) {
     if (findRed()) return 0;
     if (depth >= 10) return -1;
 
     int ret = 987654321;
     vector<vector<char>> _B = B;
-    move(0);
-    ret = min(ret, solve(depth+1));
-    B = B_;
-    move(1);
-    ret = min(ret, solve(depth+1));
-    B = B_;
-    move(2);
-    ret = min(ret, solve(depth+1));
-    B = B_;
-    move(3);
-    ret = min(ret, solve(depth+1));
-    B = B_;
+    for (int r=0; r<4; ++r) {
+        if (r==dir || r==((dir+2)%4)) continue;
+        for (int i=0; i<r; ++i) rotate();
+        move();
+        ret = min(ret, solve(depth+1, r));
+        B = _B;
+    }
     return ret;
 }
 
@@ -80,14 +61,10 @@ int main() {
     cin >> n >> m; B.resize(n);
     for (int i=0; i<n; ++i) {
         B[i].resize(m);
-        for (int j=0; j<m; ++j){
-            char x; cin >> x;
-            B[i][j] = x;
-            if (x=='R') RED = {i, j};
-        } 
+        for (int j=0; j<m; ++j) cin >> B[i][j];
     }
 
-    cout << solve(0) << endl;
+    cout << solve(0, -1) << endl;
 
     return 0;
 }
